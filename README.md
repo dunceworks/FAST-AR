@@ -1,6 +1,6 @@
-#FAST-AR: Framework for Accelerated Spatial awareness in Augmented Reality
+# FAST-AR: Framework for Accelerated Spatial awareness in Augmented Reality
 
-##FAST-AR is an FPGA-based augmented reality pipeline designed to explore hardware acceleration for low-latency spatial awareness. By moving video processing and UI rendering directly into custom RTL, this project aims to reduce the latency and memory-bandwidth bottlenecks typically associated with software-bound AR solutions. This is a capstone project for UW-Madison's ECE554.
+## FAST-AR is an FPGA-based augmented reality pipeline designed to explore hardware acceleration for low-latency spatial awareness. By moving video processing and UI rendering directly into custom RTL, this project aims to reduce the latency and memory-bandwidth bottlenecks typically associated with software-bound AR solutions. This is a capstone project for UW-Madison's ECE554.
 
 Key Features:
 
