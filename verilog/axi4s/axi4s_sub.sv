@@ -1,3 +1,17 @@
+///////////////////////////////////////////////////////// 
+//
+// File name: axi4s_sub.sv
+// 
+// Description: AXI4-Stream sub module that interfaces with a previous TX and passes data to the submodule.
+//
+// Created  : 2026-03-01
+// Modified : 2026-03-02
+// Author   : Wysong
+//
+// Team     : Dunce Works
+//
+////////////////////////////////////////////////////////
+
 `default_nettype none
 
 

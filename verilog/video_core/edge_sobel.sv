@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////// 
 //
-// File name: sharpen.sv
+// File name: edge_sobel.sv
 // 
-// Description: Performs sharpening on full color image.
+// Description: Performs edge detection on a blurred grayscale using Sobel operators.
 //              Uses AXI4-Stream for I/O.
 //
 // Created  : 2026-03-01
@@ -17,7 +17,7 @@
 //
 ////////////////////////////////////////////////////////
 
-module sharpen ();
+module edge_sobel ();
 
 
 
