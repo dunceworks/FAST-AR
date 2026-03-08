@@ -11,3 +11,6 @@ Key Features:
 - Zero-Latency Overlays: A custom Sprite Engine for rendering real-time navigation cues directly over the video stream.
 
 - Heterogeneous Architecture: Xilinx MPSoC design utilizing the FPGA fabric (PL) for AXI4-Stream video processing, and the ARM core (PS) for Bluetooth navigation data parsing and AXI4-Lite control logic.
+
+
+Uses RGB888 color version

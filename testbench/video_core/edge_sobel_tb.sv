@@ -1,9 +1,8 @@
 ///////////////////////////////////////////////////////// 
 //
-// File name: combine.sv
+// File name: edge_sobel.sv
 // 
-// Description: Combines the edge detect and sharpened frame to produce the final sharpened wireframe image
-//              basically just a mux that outputs neon green when on an edge and the sharpened image otherwise. 
+// Description: Performs edge detection on a blurred grayscale using Sobel operators.
 //              Uses AXI4-Stream for I/O.
 //
 // Created  : 2026-03-01
@@ -18,7 +17,7 @@
 //
 ////////////////////////////////////////////////////////
 
-module combine ();
+module edge_sobel ();
 
 
 

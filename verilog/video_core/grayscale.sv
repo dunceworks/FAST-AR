@@ -23,7 +23,7 @@
 
 module grayscale
 #(
-    parameter COLOR_BITS = 12
+    parameter COLOR_BITS = 8
 )
 (
     input wire aclk,
