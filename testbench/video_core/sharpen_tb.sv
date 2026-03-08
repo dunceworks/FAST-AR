@@ -1,9 +1,8 @@
 ///////////////////////////////////////////////////////// 
 //
-// File name: sharpen.sv
+// File name: sharpen_tb.sv
 // 
-// Description: Performs sharpening on full color image.
-//              Uses AXI4-Stream for I/O.
+// Description: Tests the sharpen module.
 //
 // Created  : 2026-03-08
 // Modified : 2026-03-08
@@ -17,7 +16,7 @@
 //
 ////////////////////////////////////////////////////////
 
-module sharpen ();
+module sharpen_tb ();
 
 
 

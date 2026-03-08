@@ -1,13 +1,12 @@
 ///////////////////////////////////////////////////////// 
 //
-// File name: edge_sobel.sv
+// File name: edge_sobel_tb.sv
 // 
-// Description: Performs edge detection on a blurred grayscale using Sobel operators.
-//              Uses AXI4-Stream for I/O.
+// Description: Tests the edge_sobel module.
 //
-// Created  : 2026-03-01
-// Modified : 2026-03-02
-// Author   : Wysong
+// Created  : 2026-03-08
+// Modified : 2026-03-08
+// Author   : 
 //
 // Team     : Dunce Works
 //
@@ -17,7 +16,7 @@
 //
 ////////////////////////////////////////////////////////
 
-module edge_sobel ();
+module edge_sobel_tb ();
 
 
 

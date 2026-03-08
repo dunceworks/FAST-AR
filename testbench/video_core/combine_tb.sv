@@ -1,24 +1,20 @@
 ///////////////////////////////////////////////////////// 
 //
-// File name: combine.sv
+// File name: combine_tb.sv
 // 
-// Description: Combines the edge detect and sharpened frame to produce the final sharpened wireframe image
-//              basically just a mux that outputs neon green when on an edge and the sharpened image otherwise. 
-//              Uses AXI4-Stream for I/O.
+// Description: Tests the combine module.
 //
-// Created  : 2026-03-01
-// Modified : 2026-03-02
-// Author   : Wysong
+// Created  : 2026-03-08
+// Modified : 2026-03-08
+// Author(s):
 //
 // Team     : Dunce Works
 //
-// Written?     [X]
-// SW Tested?   [ ]
-// HW Tested?   [ ]
+// Written?     [ ]
 //
 ////////////////////////////////////////////////////////
 
-module combine ();
+module combine_tb ();
 
 
 

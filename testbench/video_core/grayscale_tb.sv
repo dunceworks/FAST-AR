@@ -6,7 +6,7 @@
 //
 // Created  : 2026-03-08
 // Modified : 2026-03-08
-// Author   : Wysong
+// Author(s): Wysong
 //
 // Team     : Dunce Works
 //
@@ -42,7 +42,7 @@ initial begin
     // Default signals
     clk = 0;        
     reset_n = 0;    // reset
-    
+
 
 
 
