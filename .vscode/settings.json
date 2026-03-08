@@ -1,8 +1,17 @@
 {
     "cSpell.words": [
         "aclk",
+        "Deassert",
+        "fopen",
+        "fwrite",
+        "idkwhatthisthingis",
         "intf",
         "modport",
-        "Testbench"
-    ]
+        "Testbench",
+        "tlast",
+        "tready",
+        "tuser",
+        "tvalid"
+    ],
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }
