@@ -58,7 +58,7 @@ initial begin
 
     // Load the test image from memory
     $readmemh("..\\py\\test_img_gen\\output_hex\\idkwhatthisthingis.hex", test_image);  // Make sure pixel data lines up
-    file_out = $fopen("image_out.hex", "w");
+    file_out = $fopen("grayscale_output.hex", "w");
 
     repeat(2) @(negedge clk); // Wait a couple cycles
 

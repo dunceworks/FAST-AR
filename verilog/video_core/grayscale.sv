@@ -19,7 +19,7 @@
 
 `default_nettype none
 
-// Adds one cycle delay.
+// !!!! Adds ONE cycle delay.
 
 module grayscale
 #(
@@ -41,6 +41,7 @@ module grayscale
     logic tvalid_flopped;
     logic tlast_flopped;
     logic tready_flopped;
+    logic tuser_flopped;
 
     // Add a single flop stage
     always_ff @(posedge aclk or negedge areset_n) begin
@@ -48,10 +49,12 @@ module grayscale
             tvalid_flopped <= 1'b0;
             tlast_flopped <= 1'b0;
             tready_flopped <= 1'b0;
+            tuser_flopped <= 1'b0;
         end else begin
             tvalid_flopped <= axi4s_in.tvalid;
             tlast_flopped <= axi4s_in.tlast;
             tready_flopped <= axi4s_out.tready;
+            tuser_flopped <= axi4s_in.tuser;
         end
     end
 
@@ -73,7 +76,8 @@ module grayscale
 
 
     // assign outputs
-    assign axi4s_in.tready = tready_flopped;    //tready flows *UP* the pipeline
+    assign axi4s_in.tready = axi4s_out.tready;    //tready flows *UP* the pipeline
+    assign axi4s_out.tuser = tuser_flopped;    //tuser flows *DOWN* the pipeline (but we just pass it through flopped)
     assign axi4s_out.tlast = tlast_flopped;
     assign axi4s_out.tdata = {3{data_out}};    // replicate the grayscale value across R, G, B
     assign axi4s_out.tvalid = tvalid_flopped;

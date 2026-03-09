@@ -43,10 +43,17 @@ module line_buffer #(
         end else if (pixel_valid) begin
             // Write incoming pixel to the line buffer
             line_buffer[write_ptr] <= pixel_in;
-            write_ptr <= write_ptr + 1;
+
+            if (write_ptr == LINE_LENGTH - 1) begin
+                write_ptr <= 0; // Wrap around after reaching the end of the line
+                pixel_out <= line_buffer[0]; // Output the last pixel of the line
+            end else begin
+                write_ptr <= write_ptr + 1;
+                pixel_out <= line_buffer[write_ptr + 1];    //Output the next pixel write_ptr + 1 is the pixel written longest ago
+
+            end
 
             // Output the pixel from the line buffer
-            pixel_out <= line_buffer[write_ptr + 1];    //Output the next pixel write_ptr + 1 is the pixel written longest ago
             pixel_out_valid <= 1; // Indicate that output is valid
         end else begin
             pixel_out_valid <= 0; // No valid output when not writing
