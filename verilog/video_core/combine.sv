@@ -13,7 +13,7 @@
 // Team     : Dunce Works
 //
 // Written?     [X]
-// SW Tested?   [ ]
+// SW Tested?   [X]
 // HW Tested?   [ ]
 //
 ////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ module combine #(
             b <= 0;
         end else if (data_valid && !stall) begin
             r <= use_edge ? 8'h00 : axi4s_RGB_in.tdata[23:16]; // If edge detected, set R to 0, else pass through RGB input
-            g <= use_edge ? 8'hFF : axi4s_RGB_in.tdata[15:8];  // If edge detected, set G to 255, else pass through RGB input
+            g <= use_edge ? axi4s_edge_in.tdata[15:8] : axi4s_RGB_in.tdata[15:8];  // If edge detected, set G to 255, else pass through RGB input
             b <= use_edge ? 8'h00 : axi4s_RGB_in.tdata[7:0];   // If edge detected, set B to 0, else pass through RGB input
         end
     end
