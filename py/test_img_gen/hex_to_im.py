@@ -7,7 +7,7 @@ HEIGHT = 100 # Must match input height
 
 # 1. Read the Hex Output (RGB888 - 24-bit color)
 pixels = []
-with open("py\\test_img_gen\\sv_hex_out\\combine_output.hex", "r") as f:
+with open("py\\test_img_gen\\sv_hex_out\\frame_pipeline_WHOLE_output.hex", "r") as f:
     for line in f:
         # Strip whitespace and convert hex to int
         if line.strip():
@@ -28,4 +28,4 @@ print(f"Read {actual_len} pixels.")
 # Create output image (RGB mode for 24-bit color)
 img_out = Image.new("RGB", (WIDTH, HEIGHT))
 img_out.putdata(pixels)
-img_out.save("py\\test_img_gen\\output_img\\combine.png")
+img_out.save("py\\test_img_gen\\output_img\\frame_pipeline_WHOLE.png")

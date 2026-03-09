@@ -86,8 +86,8 @@ module combine #(
     assign axi4s_out.tuser = tuser_flopped;
 
 
-    assign axi4s_RGB_in.tready = axi4s_out.tready & data_valid;    //tready flows *UP* the pipeline
-    assign axi4s_edge_in.tready = axi4s_out.tready & data_valid;    //tready flows *UP* the pipeline
+    assign axi4s_RGB_in.tready = data_valid ? axi4s_out.tready : 1'b1;    //tready flows *UP* the pipeline
+    assign axi4s_edge_in.tready = data_valid ? axi4s_out.tready : 1'b1;    //tready flows *UP* the pipeline
 
 
 endmodule
