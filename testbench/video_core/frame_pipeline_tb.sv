@@ -10,7 +10,7 @@
 //
 // Team     : Dunce Works
 //
-// Written?     [ ]
+// Written?     [X]
 //
 ////////////////////////////////////////////////////////
 
@@ -18,8 +18,8 @@ module frame_pipeline_tb ();
 
 // Local params
 parameter COLOR_BITS = 8;       // Number of bits per color channel (R, G, B), ex. 8 == RGB888
-parameter IMG_WIDTH = 100;
-parameter IMG_HEIGHT = 100;
+parameter IMG_WIDTH = 1920;
+parameter IMG_HEIGHT = 1080;
 parameter IMG_SIZE = IMG_WIDTH * IMG_HEIGHT;
 
 
@@ -57,7 +57,7 @@ initial begin
     reset_n = 0;    // reset
 
     // Load the test image from memory
-    $readmemh("..\\py\\test_img_gen\\output_hex\\idkwhatthisthingis.hex", test_image);  // Raw RGB data in hex format
+    $readmemh("..\\py\\test_img_gen\\output_hex\\camel_1080p.hex", test_image);  // Raw RGB data in hex format
     file_out = $fopen("frame_pipeline_WHOLE_output.hex", "w");
 
     repeat(2) @(negedge clk); // Wait a couple cycles

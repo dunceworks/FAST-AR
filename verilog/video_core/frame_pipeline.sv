@@ -11,8 +11,8 @@
 //
 // Team     : Dunce Works
 //
-// Written?     [X]
-// SW Tested?   [X]
+// Written?     [\] in progress
+// SW Tested?   [X] current implementation is tested in simulation
 // HW Tested?   [ ]
 //
 ////////////////////////////////////////////////////////
@@ -32,12 +32,25 @@ module frame_pipeline #(
 );
 
     // Edge detection AXI4-Stream interfaces
+    axi4s_vid_if axi4s_crop_intf ();
     axi4s_vid_if axi4s_gray_intf ();
     axi4s_vid_if axi4s_edge_intf ();
     axi4s_vid_if axi4s_RGB_DELAYED_IN_intf ();
     axi4s_vid_if axi4s_RGB_DELAYED_OUT_intf ();
     axi4s_vid_if axi4s_RGB_for_GRAYSCALE_intf ();
+    axi4s_vid_if axi4s_combine_out_intf ();
 
+
+    // Crop the input frame to 960x1080 for edge detection
+    crop_image #(
+        .IMG_WIDTH(IMG_WIDTH),
+        .IMG_HEIGHT(IMG_HEIGHT)
+    ) crop_inst (
+        .aclk(aclk),
+        .areset_n(areset_n),
+        .axi4s_in(axi4s_RGB_in),
+        .axi4s_out(axi4s_crop_intf)
+    );
 
     // Add a splitter at the input to allow both edge detection and RGB delay to read the same input stream
     axi4s_splitter #(
@@ -45,7 +58,7 @@ module frame_pipeline #(
     ) splitter_inst (
         .aclk(aclk),
         .areset_n(areset_n),
-        .axi4s_in(axi4s_RGB_in),
+        .axi4s_in(axi4s_crop_intf),
         .axi4s_out1(axi4s_RGB_DELAYED_IN_intf), // Delayed RGB for combine module
         .axi4s_out2(axi4s_RGB_for_GRAYSCALE_intf) // Input for edge detection
     );
@@ -74,7 +87,7 @@ module frame_pipeline #(
     // Instantiate edge detection module
     edge_sobel #(
         .COLOR_BITS(COLOR_BITS),
-        .IMG_WIDTH(IMG_WIDTH),
+        .IMG_WIDTH(IMG_WIDTH/2), // Edge detection is done on the cropped image
         .IMG_HEIGHT(IMG_HEIGHT)
     ) edge_detect_inst (
         .aclk(aclk),
@@ -92,14 +105,22 @@ module frame_pipeline #(
         .areset_n(areset_n),
         .axi4s_RGB_in(axi4s_RGB_DELAYED_OUT_intf), // Delayed RGB input
         .axi4s_edge_in(axi4s_edge_intf),
-        .axi4s_out(axi4s_out)
+        .axi4s_out(axi4s_combine_out_intf)
     );
 
+    // Barrel distortion filter (unimplemented)
 
 
-
-
-
-
+    // Frame stitcher
+    frame_stitch #(
+        .COLOR_BITS(COLOR_BITS),
+        .IMG_WIDTH(IMG_WIDTH/2), // Stitching two cropped frames together to get back to full width
+        .IMG_HEIGHT(IMG_HEIGHT)
+    ) stitch_inst (
+        .aclk(aclk),
+        .areset_n(areset_n),
+        .axi4s_in(axi4s_combine_out_intf), // Input from combine module
+        .axi4s_out(axi4s_out) // Output directly to output stream since stitching is the last step
+    );
 
 endmodule

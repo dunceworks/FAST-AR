@@ -2,10 +2,10 @@ from PIL import Image
 
 # 1. Load image as RGB
 
-img_base_path = "py\\test_img_gen\\"
-img_name = "idkwhatthisthingis"
+img_base_path = "py\\test_img_gen\\input_img\\"
+img_name = "camel_1080p" # Image name without extension
 img_ext = ".png"
-output_name = img_base_path + "\\output_hex\\" + img_name + ".hex"
+output_name = img_base_path + "..\\output_hex\\" + img_name + ".hex"
 
 img = Image.open(img_base_path + img_name + img_ext).convert("RGB")
 width, height = img.size

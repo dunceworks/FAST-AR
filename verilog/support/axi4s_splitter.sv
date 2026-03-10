@@ -12,8 +12,7 @@
 // Team     : Dunce Works
 //
 // Written?     [X]
-// SW Tested?   [ ]
-// HW Tested?   [ ]
+// SW Tested?   [X]
 //
 ////////////////////////////////////////////////////////
 

@@ -10,6 +10,9 @@
 //
 // Team     : Dunce Works
 //
+// Written?     [X]
+// SW Tested?   [X]
+//
 ////////////////////////////////////////////////////////
 
 interface axi4s_vid_if #(parameter D_WIDTH = 24);

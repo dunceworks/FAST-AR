@@ -6,6 +6,7 @@
         "fwrite",
         "idkwhatthisthingis",
         "intf",
+        "localparam",
         "modport",
         "Testbench",
         "tlast",
