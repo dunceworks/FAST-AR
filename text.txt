@@ -1,0 +1,22 @@
+Document everything we need, sum up the items
+
+Small informal presentation
+
+Wednesday
+- Spreadsheet (300 dollars) (400 ceiling)
+
+Thursday            Big Picture
+- Informal presentation/justification of our final demmo
+- Make sure we are al on the same page
+- map out as much ass possible
+- How the new and existing equipment 
+- 
+
+
+Next Thursday       Micro Arch
+- What we need (modules) in isolation
+- Who does what 
+
+
+
+Before spring break have our basic implementation and integrate - have working MVP

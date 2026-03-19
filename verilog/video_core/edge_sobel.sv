@@ -6,10 +6,14 @@
 //              Uses AXI4-Stream for I/O. Outputs a "neon" green edge map where edges are detected. black otherwise
 //
 // Created  : 2026-03-01
-// Modified : 2026-03-09
+// Modified : 2026-03-19
 // Author   : Wysong
 //
 // Team     : Dunce Works
+//
+// AI Disclosure: This code was initially written without AI assistance (not including small auto-completions - think small instantiations).
+//                During debugging, Copilot was used to point out potential issues but not used to write any code. 
+//                Comments written by the author.
 //
 // Written?     [X]
 // SW Tested?   [X]

@@ -11,6 +11,11 @@
 //
 // Team     : Dunce Works
 //
+// AI Disclosure: This code was initially written without AI assistance (not including small auto-completions - think small instantiations).
+//                During debugging, Copilot was used to point out potential issues but not used to write any code. 
+//                Specifically in this file, copilot corrected misunderstanding of frame buffer timing.
+//                Comments written by the author.
+//
 // Written?     [X]
 // SW Tested?   [X]
 // HW Tested?   [ ]

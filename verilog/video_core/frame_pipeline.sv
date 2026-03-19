@@ -6,10 +6,14 @@
 //              applies barrel distortion filter, stitches two frames together into a single frame, and outputs the final processed video stream.
 //
 // Created  : 2026-03-09
-// Modified : 2026-03-09
+// Modified : 2026-03-19
 // Author   : Wysong
 //
 // Team     : Dunce Works
+//
+// AI Disclosure: Copilot was used to instantiate modules and ensure connections were not left floating.
+//                Individual modules are attributed appropriately within their files.
+//                Comments and final debugging/testing done by author.
 //
 // Written?     [\] in progress
 // SW Tested?   [X] current implementation is tested in simulation

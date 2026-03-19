@@ -6,10 +6,12 @@
 //              Useful for aligning data streams in the pipeline. DO NOT use for 0 cycle delay.
 //
 // Created  : 2026-03-09
-// Modified : 2026-03-09
+// Modified : 2026-03-19
 // Author   : Wysong
 //
 // Team     : Dunce Works
+//
+// AI Disclosure: This code written in its entirety by the author with AI used only for small auto-completions.
 //
 // Written?     [X]
 // SW Tested?   [X]

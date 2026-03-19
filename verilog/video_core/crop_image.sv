@@ -6,10 +6,14 @@
 //              Later in the pipeline we'll side-by-side the filtered image to give us 1920*1080 output again.
 //
 // Created  : 2026-03-09
-// Modified : 2026-03-09
+// Modified : 2026-03-19
 // Author   : Wysong
 //
 // Team     : Dunce Works
+//
+// AI Disclosure: This code was initially written without AI assistance (not including small auto-completions - think small instantiations).
+//                During debugging, Copilot was used to point out potential issues but not used to write any code. 
+//                Comments written by the author. Some AI used in clarifying comment intent.
 //
 // Written?     [X]
 // SW Tested?   [X]

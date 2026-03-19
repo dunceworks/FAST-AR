@@ -6,10 +6,13 @@
 //              this module combines their tready signals. Used at the head of a pipeline to allow multiple modules to read from the same input.
 //
 // Created  : 2026-03-09
-// Modified : 2026-03-09
+// Modified : 2026-03-19
 // Author   : Wysong
 //
 // Team     : Dunce Works
+//
+// AI Disclosure: This code written in its entirety by the author. Honestly would be kind of sad if I couldn't
+//                write a basic AXI broadcaster without copilot guiding me...
 //
 // Written?     [X]
 // SW Tested?   [X]
