@@ -2,8 +2,8 @@ from PIL import Image
 import math
 
 # Config (Must match the TB!)
-WIDTH = 124  # Must match input width
-HEIGHT = 124 # Must match input height
+WIDTH = 128  # Must match input width
+HEIGHT = 128 # Must match input height
 
 # 1. Read the Hex Output (RGB888 - 24-bit color)
 pixels = []

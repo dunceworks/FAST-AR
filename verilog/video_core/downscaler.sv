@@ -209,6 +209,10 @@ module downscaler #(
     end
 
     always_comb begin
+        sum_r = '0;
+        sum_g = '0;
+        sum_b = '0;
+        avg_pixel = '0;
         // Interpolate the 8x8 pixel block down to 1 pixel
         for (int i = 0; i < 8; i++) begin
             for (int j = 0; j < 8; j++) begin

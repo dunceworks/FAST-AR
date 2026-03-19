@@ -61,7 +61,7 @@ initial begin
     axi4s_out_intf.tready = 1'b0;
 
     // Load the test image from memory
-    $readmemh("..\\py\\test_img_gen\\sv_hex_out\\camel_1080p.hex", test_image);  // Make sure pixel data lines up
+    $readmemh("..\\py\\test_img_gen\\output_hex\\camel_1080p.hex", test_image);  // Make sure pixel data lines up
     file_out = $fopen("downscaler_output.hex", "w");
 
     repeat(2) @(negedge clk); // Wait a couple cycles
