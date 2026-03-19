@@ -27,8 +27,8 @@ module downscaler #(
     input wire aclk,
     input wire areset_n,
 
-    axi4s_vid_if.sub axi4s_in,
-    axi4s_vid_if.dom axi4s_out
+    axi4s_vid_if.dom axi4s_in,
+    axi4s_vid_if.sub axi4s_out
 );
 
     localparam SQUARE_SIZE = 1024;

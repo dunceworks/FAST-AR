@@ -54,11 +54,6 @@ initial begin
     // Default signals
     clk = 0;        
     reset_n = 0;    // reset
-    axi4s_in_intf.tvalid = 1'b0;
-    axi4s_in_intf.tdata = '0;
-    axi4s_in_intf.tlast = 1'b0;
-    axi4s_in_intf.tuser = 1'b0;
-    axi4s_out_intf.tready = 1'b0;
 
     // Load the test image from memory
     $readmemh("..\\py\\test_img_gen\\output_hex\\camel_1080p.hex", test_image);  // Raw RGB data in hex format
