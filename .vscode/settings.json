@@ -1,6 +1,8 @@
 {
     "cSpell.words": [
         "aclk",
+        "Aight",
+        "Backpressure",
         "Deassert",
         "fopen",
         "fwrite",
@@ -8,6 +10,7 @@
         "intf",
         "localparam",
         "modport",
+        "rowbuffers",
         "Testbench",
         "tlast",
         "tready",
