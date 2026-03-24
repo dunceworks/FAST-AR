@@ -4,10 +4,10 @@
 //
 // File name: downscaler.sv
 // 
-// Description: Downscales the image to 128 px^2 dimensions.
+// Description: Downsizes the image to 128 dimensions.
 //
 // Created  : 2026-03-18
-// Modified : 2026-03-23
+// Modified : 2026-03-19
 // Author   : Wysong
 //
 // Team     : Dunce Works
@@ -31,8 +31,8 @@ module downscaler #(
     input wire aclk,
     input wire areset_n,
 
-    axi4s_vid_if.dom axi4s_in,
-    axi4s_vid_if.sub axi4s_out
+    axi4s_vid_if.master axi4s_in,
+    axi4s_vid_if.slave axi4s_out
 );
 
     localparam SQUARE_SIZE = 1024;
@@ -209,7 +209,7 @@ module downscaler #(
     end
 
     always_comb begin
-        // Interpolate the 8x8 pixel block down to 1 pixel (basically just a 64 value average)
+        // Interpolate the 8x8 pixel block down to 1 pixel
         for (int i = 0; i < 8; i++) begin
             for (int j = 0; j < 8; j++) begin
                 sum_r += pix_mat[i][j][23:16]; // Red channel
