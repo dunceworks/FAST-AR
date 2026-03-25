@@ -164,7 +164,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>19343a0e</spirit:value>
+            <spirit:value>91c2d9af</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -180,7 +180,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>19343a0e</spirit:value>
+            <spirit:value>91c2d9af</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -466,18 +466,18 @@
       </xilinx:taxonomies>
       <xilinx:displayName>downscaler_axiv1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>1</xilinx:coreRevision>
+      <xilinx:coreRevision>5</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>xilinx.com:user:downscaler_axi4stream:1.0</xilinx:canUpgradeFrom>
         <xilinx:canUpgradeFrom>xilinx.com:user:downscaler_axi4stream:1.1</xilinx:canUpgradeFrom>
         <xilinx:canUpgradeFrom>xilinx.com:user:downscaler_axi4stream:1.11</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2026-03-24T22:49:07Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2026-03-25T03:24:04Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2025.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="3e7581fb"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="2d5850bf"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="d67add7f"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="6e2c7c33"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="3e6306b1"/>
     </xilinx:packagingInfo>
