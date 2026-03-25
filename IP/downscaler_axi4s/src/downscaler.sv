@@ -7,7 +7,7 @@
 // Description: Downsizes the image to 128 dimensions.
 //
 // Created  : 2026-03-18
-// Modified : 2026-03-19
+// Modified : 2026-03-25
 // Author   : Wysong
 //
 // Team     : Dunce Works
@@ -18,7 +18,7 @@
 //
 // Written?     [X]
 // SW Tested?   [X]
-// HW Tested?   [ ]
+// HW Tested?   [X]
 //
 ////////////////////////////////////////////////////////
 

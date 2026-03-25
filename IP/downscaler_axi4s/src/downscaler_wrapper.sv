@@ -4,8 +4,8 @@
 // 
 // Description: Wrapper for the downscaler module.
 //
-// Created  : 2026-03-18
-// Modified : 2026-03-19
+// Created  : 2026-03-20
+// Modified : 2026-03-25
 // Author   : Wysong
 //
 // Team     : Dunce Works
@@ -14,7 +14,7 @@
 //
 // Written?     [X]
 // SW Tested?   [X]
-// HW Tested?   [ ]
+// HW Tested?   [X]
 //
 ////////////////////////////////////////////////////////
 
