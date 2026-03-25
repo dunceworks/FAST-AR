@@ -3,7 +3,7 @@
   <spirit:vendor>xilinx.com</spirit:vendor>
   <spirit:library>user</spirit:library>
   <spirit:name>downscaler_axi4stream</spirit:name>
-  <spirit:version>1.11</spirit:version>
+  <spirit:version>1.12</spirit:version>
   <spirit:busInterfaces>
     <spirit:busInterface>
       <spirit:name>m_axis</spirit:name>
@@ -164,7 +164,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>e60b17bd</spirit:value>
+            <spirit:value>19343a0e</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -180,7 +180,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>e60b17bd</spirit:value>
+            <spirit:value>19343a0e</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -436,7 +436,7 @@
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>xgui/downscaler_axi4stream_v1_11.tcl</spirit:name>
+        <spirit:name>xgui/downscaler_axi4stream_v1_12.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
         <spirit:userFileType>CHECKSUM_f64a5dae</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
@@ -470,13 +470,14 @@
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>xilinx.com:user:downscaler_axi4stream:1.0</xilinx:canUpgradeFrom>
         <xilinx:canUpgradeFrom>xilinx.com:user:downscaler_axi4stream:1.1</xilinx:canUpgradeFrom>
+        <xilinx:canUpgradeFrom>xilinx.com:user:downscaler_axi4stream:1.11</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2026-03-24T22:14:37Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2026-03-24T22:49:07Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2025.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="3e7581fb"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="5cf99e7d"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="2d5850bf"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="6e2c7c33"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="3e6306b1"/>
     </xilinx:packagingInfo>

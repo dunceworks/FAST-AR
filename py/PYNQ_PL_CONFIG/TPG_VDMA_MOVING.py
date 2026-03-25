@@ -1,3 +1,7 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+
 from pynq import Overlay, allocate, MMIO
 import numpy as np
 import matplotlib.pyplot as plt
@@ -98,3 +102,53 @@ if not (status & 0x0FF1):
 else:
     print(f"\n!! PIPELINE STALLED !! Status code: {hex(status)}")
     
+    
+    
+    
+# This is the novel part different from TPG_VDMA_TEST.py
+
+# 1. Reset the format and background just in case my bad code messed them up
+tpg.write(0x40, 0x0)    # Color Format: 0 = RGB
+tpg.write(0x20, 0x9)    # Background Pattern: 9 = Color Bars
+
+# 2. Enable the Overlay
+tpg.write(0x28, 0x1)    # Overlay ID: 1 = Moving Box
+
+# 3. Configure Box Size and Color (USING THE CORRECT REGISTERS!)
+tpg.write(0x78, 150)    # Box Size: 150x150 pixels
+tpg.write(0x80, 255)    # Box Color Red: Full
+tpg.write(0x88, 255)    # Box Color Green: Full
+tpg.write(0x90, 255)    # Box Color Blue: Full
+
+# 4. Configure Motion Speed
+tpg.write(0x38, 16)     # Motion Speed: 16 pixels per frame
+
+# 5. Start / Auto-Restart
+tpg.write(0x00, 0x81)
+
+print("Proper registers written! Hardware is free-running.")
+
+
+# 2. CAPTURE AND DISPLAY A BURST OF FRAMES
+# ---------------------------------------------------------
+fig, axes = plt.subplots(1, 3, figsize=(18, 6))
+
+for i in range(3):
+    # Wait 0.1 seconds (at 60fps, the hardware will have processed ~6 new frames)
+    time.sleep(0.3)
+    
+    # CRITICAL: Tell the ARM processor to dump its old cache and fetch the 
+    # absolute newest data that the FPGA just wrote to the DDR RAM.
+    frame_buffer.invalidate()
+    
+    # We must make a copy() of the buffer, otherwise matplotlib will just 
+    # plot three pointers to the exact same live memory space at the end!
+    captured_frame = np.copy(frame_buffer)
+    
+    # Plot the frozen frame
+    axes[i].imshow(captured_frame)
+    axes[i].set_title(f"Live Capture: T+{i*0.1:.1f}s")
+    axes[i].axis('off')
+
+plt.tight_layout()
+plt.show()

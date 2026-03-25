@@ -209,6 +209,9 @@ module downscaler #(
     end
 
     always_comb begin
+        sum_r = '0; // MUST initialize to zero!
+        sum_g = '0;
+        sum_b = '0;
         // Interpolate the 8x8 pixel block down to 1 pixel
         for (int i = 0; i < 8; i++) begin
             for (int j = 0; j < 8; j++) begin
@@ -228,8 +231,12 @@ module downscaler #(
     assign axi4s_in.tready = !stall; // Backpressure from output
 
     assign axi4s_out.tdata = not_cropping ? avg_pixel : '0; // Output black for pixels outside crop region
+    
     assign axi4s_out.tvalid = not_cropping && axi4s_in.tvalid && interpolate; // Only valid when within crop region and interpolation is enabled
-    assign axi4s_out.tlast = (x_count == RIGHT_CROP_START) && (y_count == BOTTOM_CROP_START);    // Only assert tlast for last pixel in crop region
+    
+    // Rq we do -8 here since we are interpolating 8 wide across and tlast gets asserted when that last pixel is calculated
+    assign axi4s_out.tlast = (x_count == RIGHT_CROP_START - 8);
+    
     assign axi4s_out.tuser = (x_count == LEFT_CROP_STOP) && (y_count == TOP_CROP_STOP);     // Only assert tuser for first pixel in crop region
 
 endmodule
