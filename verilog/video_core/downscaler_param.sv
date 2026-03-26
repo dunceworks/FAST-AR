@@ -211,9 +211,9 @@ module downscaler #(
     endgenerate
 
     // Actually assign the avg pixel now.
-    assign avg_pixel[23:16] = sum_r[NUM_STAGES][0] >> DOWNSCALE_FACTOR; // Divide by downscale (bitshift)
-    assign avg_pixel[15:8]  = sum_g[NUM_STAGES][0] >> DOWNSCALE_FACTOR;
-    assign avg_pixel[7:0]   = sum_b[NUM_STAGES][0] >> DOWNSCALE_FACTOR;
+    assign avg_pixel[23:16] = sum_r[NUM_STAGES][0] >> NUM_STAGES; // Divide by #_stages (bitshift)
+    assign avg_pixel[15:8]  = sum_g[NUM_STAGES][0] >> NUM_STAGES; // since # elements = 2^#_stages
+    assign avg_pixel[7:0]   = sum_b[NUM_STAGES][0] >> NUM_STAGES; // this is how much we want to shift...
 
 
     /////////////////////

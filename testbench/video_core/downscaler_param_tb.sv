@@ -22,7 +22,8 @@ parameter IMG_WIDTH = 1920;
 parameter IMG_HEIGHT = 1080;
 parameter IMG_SIZE = IMG_WIDTH * IMG_HEIGHT;
 
-
+parameter OUT_SIZE = 224;      // Output size of the downscaled image (OUT_SIZE x OUT_SIZE)
+parameter DS_F = 4;            // Downscale factor (must be a power of
 
 // Interfaces
 axi4s_vid_if axi4s_in_intf ();
@@ -40,8 +41,8 @@ integer file_out;
 
 //Instantiate DUT
 downscaler_param #(
-        .OUT_SIZE(128),
-        .DOWNSCALE_FACTOR(8)
+        .OUT_SIZE(OUT_SIZE),
+        .DOWNSCALE_FACTOR(DS_F)
     ) iDUT (
         .aclk(clk),
         .areset_n(reset_n),
