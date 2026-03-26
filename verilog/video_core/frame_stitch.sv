@@ -70,8 +70,7 @@ line_buffer #(
     .rst_n(areset_n),
     .pixel_in(axi4s_in.tdata),
     .pixel_valid(!stall),           // Free running as long as we're not stalled
-    .pixel_out(line_buffer_out),    // Output the delayed line for stitching
-    .pixel_out_valid()              // Unused.... tbh don't remember why this is here
+    .pixel_out(line_buffer_out)     // Output the delayed line for stitching
 );
 
 // Should be perfectly timed such that we can stitch two frames together. 

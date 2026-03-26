@@ -91,8 +91,7 @@ module downscaler #(
         .rst_n(areset_n),
         .pixel_in(lbo[0]),
         .pixel_valid(axi4s_in.tvalid && not_cropping), // Only write to buffer if within crop region
-        .pixel_out(lbo[1]), 
-        .pixel_out_valid() 
+        .pixel_out(lbo[1]) 
     );
 
     line_buffer #(
@@ -103,8 +102,7 @@ module downscaler #(
         .rst_n(areset_n),
         .pixel_in(lbo[1]),
         .pixel_valid(axi4s_in.tvalid && not_cropping), // Only write to buffer if within crop region
-        .pixel_out(lbo[2]), 
-        .pixel_out_valid() 
+        .pixel_out(lbo[2])
     );
 
     line_buffer #(
@@ -115,8 +113,7 @@ module downscaler #(
         .rst_n(areset_n),
         .pixel_in(lbo[2]),
         .pixel_valid(axi4s_in.tvalid && not_cropping), // Only write to buffer if within crop region
-        .pixel_out(lbo[3]), 
-        .pixel_out_valid() 
+        .pixel_out(lbo[3])
     );
 
     line_buffer #(
@@ -127,8 +124,7 @@ module downscaler #(
         .rst_n(areset_n),
         .pixel_in(lbo[3]),
         .pixel_valid(axi4s_in.tvalid && not_cropping), // Only write to buffer if within crop region
-        .pixel_out(lbo[4]), 
-        .pixel_out_valid() 
+        .pixel_out(lbo[4])
     );
 
     line_buffer #(
@@ -139,8 +135,7 @@ module downscaler #(
         .rst_n(areset_n),
         .pixel_in(lbo[4]),
         .pixel_valid(axi4s_in.tvalid && not_cropping), // Only write to buffer if within crop region
-        .pixel_out(lbo[5]), 
-        .pixel_out_valid() 
+        .pixel_out(lbo[5])
     );
 
     line_buffer #(
@@ -151,8 +146,7 @@ module downscaler #(
         .rst_n(areset_n),
         .pixel_in(lbo[5]),
         .pixel_valid(axi4s_in.tvalid && not_cropping), // Only write to buffer if within crop region
-        .pixel_out(lbo[6]), 
-        .pixel_out_valid() 
+        .pixel_out(lbo[6])
     );
 
     line_buffer #(
@@ -163,8 +157,7 @@ module downscaler #(
         .rst_n(areset_n),
         .pixel_in(lbo[6]),
         .pixel_valid(axi4s_in.tvalid && not_cropping), // Only write to buffer if within crop region
-        .pixel_out(lbo[7]), 
-        .pixel_out_valid() 
+        .pixel_out(lbo[7])
     );
 
     line_buffer #(
@@ -175,8 +168,7 @@ module downscaler #(
         .rst_n(areset_n),
         .pixel_in(lbo[7]),
         .pixel_valid(axi4s_in.tvalid && not_cropping), // Only write to buffer if within crop region
-        .pixel_out(lbo[8]), // Output from the 8th buffer
-        .pixel_out_valid() 
+        .pixel_out(lbo[8]) // Output from the 8th buffer
     );
 
 

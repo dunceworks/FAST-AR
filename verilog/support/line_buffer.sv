@@ -25,8 +25,7 @@ module line_buffer #(
     input wire rst_n, // Active low reset
     input wire [D_WIDTH-1:0] pixel_in, // Input pixel data
     input wire pixel_valid, // Indicates that pixel_in is valid (same as WE)
-    output reg [D_WIDTH-1:0] pixel_out, // Output pixel data
-    output reg pixel_out_valid // Indicates that pixel_out is valid
+    output reg [D_WIDTH-1:0] pixel_out // Output pixel data
 
 );
 
@@ -39,7 +38,6 @@ module line_buffer #(
         if (!rst_n) begin
             write_ptr <= 0;
             pixel_out <= 0;
-            pixel_out_valid <= 0;
         end else if (pixel_valid) begin
             // Write incoming pixel to the line buffer
             line_buffer[write_ptr] <= pixel_in;
@@ -50,13 +48,7 @@ module line_buffer #(
             end else begin
                 write_ptr <= write_ptr + 1;
                 pixel_out <= line_buffer[write_ptr + 1];    //Output the next pixel write_ptr + 1 is the pixel written longest ago
-
             end
-
-            // Output the pixel from the line buffer
-            pixel_out_valid <= 1; // Indicate that output is valid
-        end else begin
-            pixel_out_valid <= 0; // No valid output when not writing
         end
     end
 
