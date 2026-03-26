@@ -2,11 +2,12 @@
 
 ///////////////////////////////////////////////////////// 
 //
-// File name: downscaler.sv
+// File name: downscaler_param.sv
 // 
-// Description: Downsizes the image to 128 dimensions.
+// Description: Downsizes the image to a parametizable size (use OUT_SIZE and DOWNSCALE_FACTOR but
+//              ensure their product is less than input image height (assumes 1920*1080 in))
 //
-// Created  : 2026-03-18
+// Created  : 2026-03-25
 // Modified : 2026-03-25
 // Author   : Wysong
 //
@@ -23,7 +24,7 @@
 ////////////////////////////////////////////////////////
 
 
-module downscaler #(
+module downscaler_param #(
     parameter OUT_SIZE = 128,
     parameter DOWNSCALE_FACTOR = 8 // must be a power of 2: how many pixels we interpolate eg. 8 is 8x8 grid (up to user to check that this works...)
 ) 
@@ -144,7 +145,9 @@ module downscaler #(
     assign y_valid = (y_count >= TOP_CROP_STOP) && (y_count < BOTTOM_CROP_START);
     assign not_cropping = x_valid && y_valid && axi4s_in.tvalid; // If either is valid, we're not cropping (oh and the data is valid duh)
 
-    assign interpolate = (x_count - LEFT_CROP_STOP) % DOWNSCALE_FACTOR == 0 && (y_count - TOP_CROP_STOP) % DOWNSCALE_FACTOR == 0 && not_cropping; // Only interpolate every DOWNSCALE_FACTOR
+    assign interpolate = (x_count - LEFT_CROP_STOP) % DOWNSCALE_FACTOR == 0 && // Only do the interpolation every DS_F pixels in each direction
+                         (y_count - TOP_CROP_STOP) % DOWNSCALE_FACTOR == 0 &&  // since we are doing "blocking" of the grid.
+                          not_cropping;                                        //
 
     // Stuff the pixel matrix (and shift it)
     always_ff @(posedge aclk or negedge areset_n) begin

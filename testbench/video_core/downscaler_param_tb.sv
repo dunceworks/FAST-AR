@@ -22,8 +22,8 @@ parameter IMG_WIDTH = 1920;
 parameter IMG_HEIGHT = 1080;
 parameter IMG_SIZE = IMG_WIDTH * IMG_HEIGHT;
 
-parameter OUT_SIZE = 224;      // Output size of the downscaled image (OUT_SIZE x OUT_SIZE)
-parameter DS_F = 4;            // Downscale factor (must be a power of
+parameter OUT_SIZE = 128;      // Output size of the downscaled image (OUT_SIZE x OUT_SIZE)
+parameter DS_F = 8;            // Downscale factor (must be a power of 2)
 
 // Interfaces
 axi4s_vid_if axi4s_in_intf ();
@@ -63,7 +63,7 @@ initial begin
 
     // Load the test image from memory
     $readmemh("..\\py\\test_img_gen\\output_hex\\camel_1080p.hex", test_image);
-    file_out = $fopen("downscaler_output.hex", "w");
+    file_out = $fopen("downscaler_param_output.hex", "w");
 
     repeat(2) @(negedge clk); // Wait a couple cycles
 
