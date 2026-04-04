@@ -1,55 +1,100 @@
-# Written with Gemini
-# Don't trust it to work.... but hopefully a good reference
-
-from pynq import Overlay, allocate
+from pynq import Overlay, allocate, MMIO
 import numpy as np
+import matplotlib.pyplot as plt
+import time
 
-# 1. Load the Overlay
-# Ensure your .bit and .hwh files have the same name in the same folder
-overlay = Overlay("fast_ar_v1.bit")
+# --- 1. LOAD OVERLAY & DISCOVER BLOCKS ---
+print("1. Loading bitstream 'pipeline.bit'...")
+ol = Overlay("pipeline.bit")
 
-# 2. Setup the TPG (Test Pattern Generator)
-# We set it to 1080p (1920x1080) and Color Bars (pattern ID 9)
-tpg = overlay.v_tpg_0
-tpg.write(0x10, 1080)   # height
-tpg.write(0x18, 1920)   # width
-tpg.write(0x20, 9)      # background_pattern_id (9 = color bars)
-tpg.write(0x00, 0x81)   # Control: Start (bit 0) and Auto-Restart (bit 7)
+# print("\n--- DETECTED HARDWARE BLOCKS ---")
+# for ip_name in ol.ip_dict.keys():
+#     phys_addr = hex(ol.ip_dict[ip_name]['phys_addr'])
+#     print(f" -> {ip_name} @ {phys_addr}")
+print("--------------------------------\n")
 
-# 3. Allocate Physically Contiguous Memory
-# This is the "Shared PL/PS" memory you put in your Arch diagram.
-# We'll allocate 3 frame buffers to avoid tearing.
-frame_shape = (1080, 1920, 3) # Height, Width, RGB
-frames = [allocate(shape=frame_shape, dtype=np.uint8) for _ in range(3)]
+# --- 2. MAP IPs SAFELY (MMIO) ---
+# Grabbing the exact addresses from the dictionary so we don't guess
+vdma_base = ol.ip_dict['axi_vdma_0']['phys_addr']
+tpg_base  = ol.ip_dict['v_tpg_0']['phys_addr']
+vdma = MMIO(vdma_base, 0x10000)
+tpg  = MMIO(tpg_base, 0x10000)
+print("IPs mapped.")
 
-# 4. Configure the VDMA (Write Channel)
-vdma = overlay.axi_vdma_0
+# --- 3. ALLOCATE MEMORY ---
+width, height = 1920, 1080
+stride = width * 3  # 3 bytes per pixel for RGB888
 
-# VDMA Register Offsets (S2MM = Stream to Memory Mapped / Write)
-# 0x30 = S2MM_VDMACR (Control Register)
-# 0xAC = S2MM_START_ADDR1
-# 0xA8 = S2MM_STRIDE
-# 0xA4 = S2MM_HSIZE
-# 0xA0 = S2MM_VSIZE
+print(f"2. Allocating {width}x{height} frame buffer...")
+frame_buffer = allocate(shape=(height, width, 3), dtype=np.uint8)
+print(f" -> Buffer physical address: {hex(frame_buffer.device_address)}\n")
 
-vdma.write(0x30, 0x4) # Reset the VDMA
-vdma.write(0x30, 0x8) # Clear reset
+# --- 4. ARM THE VDMA (DESTINATION FIRST) ---
+print("3. Initializing VDMA S2MM (Write Channel)...")
+vdma.write(0x30, 0x4)        # 1. Soft Reset
+time.sleep(0.1)              # Let the reset settle
+vdma.write(0x30, 0x3)        # 2. Start S2MM, Circular Mode
 
-# Tell VDMA where the "parking spots" are in physical RAM
-vdma.write(0xAC, frames[0].device_address)
-vdma.write(0x30, 0x00010003) # Start S2MM, Circular Mode, Genlock
+# Program ALL possible frame pointers to the same safe address
+print("Beginning VDMA reg writes")
+vdma.write(0xAC, frame_buffer.device_address) # Frame 1
+vdma.write(0xB0, frame_buffer.device_address) # Frame 2 (Protects against 0x0 crash!)
+vdma.write(0xB4, frame_buffer.device_address) # Frame 3 (Protects against 0x0 crash!)
 
-# Stride is Width * Bytes per pixel (3 for RGB)
-vdma.write(0xA8, 1920 * 3) 
-vdma.write(0xA4, 1920 * 3) # Horizontal size
-vdma.write(0xA0, 1080)     # Vertical size (This triggers the transfer!)
+vdma.write(0xA8, stride)                      # Stride (Bytes per line)
+vdma.write(0xA4, stride)                      # HSize (Horizontal bytes)
+vdma.write(0xA0, height)                      # VSize (Vertical lines) - THIS ARMS IT
+print(" -> VDMA is Armed and Listening.\n")
 
-print("Pipeline is live! Checking for data...")
+# --- 5. THE SAFE TPG "PING" TEST ---
+print("4. Testing AXI-Lite connection to TPG...")
 
-# 5. The Verification
-# If the VDMA is working, the sum of pixels in the buffer will be > 0
-if np.sum(frames[0]) > 0:
-    print(f"Success! Captured data sum: {np.sum(frames[0])}")
-    print(f"Sample Pixel (middle of screen): {frames[0][540, 960]}")
+try:
+    # Attempt to read the TPG's Control Register (Offset 0x00)
+    # If the bus is broken, the script will freeze right here.
+    tpg_status = tpg.read(0x00)
+    print(f" -> SUCCESS: TPG is alive! Control Reg reads: {hex(tpg_status)}")
+    
+    # Let's also verify the VDMA is sitting in the "Armed" state waiting for pixels
+    vdma_status = vdma.read(0x34)
+    print(f" -> VDMA Status Reg reads: {hex(vdma_status)}")
+    
+except Exception as e:
+    print(f" -> FAILED: The bus locked up or threw an error: {e}")
+
+print("--------------------------------\n")
+
+# --- 5. START THE TPG (TURN ON THE FAUCET) ---
+print("4. Configuring and Starting TPG...")
+tpg.write(0x10, height) # Height
+tpg.write(0x18, width)  # Width
+tpg.write(0x40, 0x0)    # Color Format: RGB (just to be safe)
+tpg.write(0x20, 0x9)    # Background Pattern: Color Bars
+tpg.write(0x00, 0x81)   # AP_START + Auto-Restart
+print(" -> TPG is Generating Pixels.\n")
+
+# --- 6. WAIT AND VERIFY ---
+print("5. Waiting for frames to flow...")
+time.sleep(0.5)
+
+status = vdma.read(0x34)
+print(f" -> VDMA S2MM Status Register: {hex(status)}")
+
+#RENDER
+
+# The corrected proper status check 
+# (0x0FF1 checks the Halted bit 0, and actual Error bits 4-11)
+if not (status & 0x0FF1):
+    print("\nSUCCESS! Data is flowing. Rendering image...")
+    
+    # CRITICAL: Force the CPU to fetch fresh data from DDR, not its local cache
+    frame_buffer.invalidate()
+    
+    plt.figure(figsize=(12, 7))
+    plt.imshow(frame_buffer)
+    plt.title("Captured Frame from TPG")
+    plt.axis('off')
+    plt.show()
 else:
-    print("Zero data detected. Check your AXI-Stream TREADY/TVALID lines in ILA.")
+    print(f"\n!! PIPELINE STALLED !! Status code: {hex(status)}")
+    

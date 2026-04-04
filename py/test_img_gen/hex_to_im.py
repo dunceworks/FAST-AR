@@ -2,12 +2,12 @@ from PIL import Image
 import math
 
 # Config (Must match the TB!)
-WIDTH = 124  # Must match input width
-HEIGHT = 124 # Must match input height
+WIDTH = 128  # Must match input width
+HEIGHT = 128 # Must match input height
 
 # 1. Read the Hex Output (RGB888 - 24-bit color)
 pixels = []
-with open("py\\test_img_gen\\sv_hex_out\\downscaler_output.hex", "r") as f:
+with open("py\\test_img_gen\\sv_hex_out\\downscaler_param_output.hex", "r") as f:
     for line in f:
         # Strip whitespace and convert hex to int
         if line.strip():
@@ -28,4 +28,4 @@ print(f"Read {actual_len} pixels.")
 # Create output image (RGB mode for 24-bit color)
 img_out = Image.new("RGB", (WIDTH, HEIGHT))
 img_out.putdata(pixels)
-img_out.save("py\\test_img_gen\\output_img\\downscaler.png")
+img_out.save("py\\test_img_gen\\output_img\\downscaler_param_128square.png")

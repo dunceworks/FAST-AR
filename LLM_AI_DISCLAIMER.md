@@ -16,8 +16,5 @@ User Guides
 --> https://www.hackster.io/nikilthapa/4k-tpg-video-streaming-in-kria-kv260-baremetal-part-1-c0c9d6 (Used to guide Displayport output design... we'll see if it helps at all though)
 --> https://www.reddit.com/r/FPGA/comments/1rwb770/finally\_got\_xilinx\_dpu\_running\_on\_petalinux\_20252/ (Used for DPU guidance in Vivado2025... and yes it's a reddit post. An in progress guide is linked in the thread)
 --> will paste later (Used for MIPI in)
-
-\--> https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/571/Zybo\_Z7\_Pcam\_5C\_Demo\_Web.pdf (pcam5 mipi funzies)
-
-\--> https://github.com/gtaylormb/ultra96v2\_imx219\_to\_displayport/blob/master/README.md (mipi to AXI)
-
+--> https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/571/Zybo\_Z7\_Pcam\_5C\_Demo\_Web.pdf (pcam5 mipi funzies)
+--> https://github.com/gtaylormb/ultra96v2\_imx219\_to\_displayport/blob/master/README.md (mipi to AXI)

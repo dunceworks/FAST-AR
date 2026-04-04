@@ -23,13 +23,13 @@ interface axi4s_vid_if #(parameter D_WIDTH = 24);
     logic                tready;
 
     // The Manager (Source/Dom) drives data out
-    modport dom (
+    modport master (
         output tvalid, tdata, tlast, tuser,
         input  tready
     );
 
     // The Subordinate (Sink/Sub) receives data in
-    modport sub (
+    modport slave (
         input  tvalid, tdata, tlast, tuser,
         output tready
     );

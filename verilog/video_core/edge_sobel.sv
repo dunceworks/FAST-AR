@@ -88,8 +88,7 @@ module edge_sobel #(
         .rst_n(areset_n),
         .pixel_in(gray_in),
         .pixel_valid(axi4s_in.tvalid),
-        .pixel_out(lb1_out),
-        .pixel_out_valid() 
+        .pixel_out(lb1_out)
     );
 
     line_buffer #(
@@ -101,8 +100,7 @@ module edge_sobel #(
         .rst_n(areset_n),
         .pixel_in(lb1_out),
         .pixel_valid(axi4s_in.tvalid),
-        .pixel_out(lb2_out),
-        .pixel_out_valid()
+        .pixel_out(lb2_out)
     );
 
 

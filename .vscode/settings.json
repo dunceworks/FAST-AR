@@ -2,20 +2,29 @@
     "cSpell.words": [
         "aclk",
         "Aight",
+        "aint",
         "Backpressure",
+        "bitshift",
         "Deassert",
+        "efficent",
+        "elems",
+        "ELEMS",
+        "endgenerate",
         "fopen",
         "fwrite",
         "idkwhatthisthingis",
         "intf",
         "localparam",
+        "Lotsa",
         "modport",
         "rowbuffers",
         "Testbench",
         "tlast",
         "tready",
         "tuser",
-        "tvalid"
+        "tvalid",
+        "vivado",
+        "Vivado"
     ],
     "python-envs.defaultEnvManager": "ms-python.python:system"
 }

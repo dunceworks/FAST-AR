@@ -64,8 +64,7 @@ module axi4s_delay #(
         .rst_n(areset_n),
         .pixel_in(axi4s_in.tdata),
         .pixel_valid(axi4s_in.tvalid),
-        .pixel_out(tdata_delay),
-        .pixel_out_valid() // We will use tvalid for validity, so ignore this
+        .pixel_out(tdata_delay)
     );
 
 assign axi4s_out.tdata = DELAY_CYCLES > 1 ? tdata_delay : tdata_delay_single;
