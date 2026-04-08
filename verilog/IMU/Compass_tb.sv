@@ -18,14 +18,14 @@
 module Compass_tb();
 
     // Local params
-    parameter IMG_W = 256,
-    parameter IMG_H = 256,
-    parameter SCREEN_W = 1920,
-    parameter SCREEN_H = 1080
+    parameter int IMG_W = 256;
+    parameter int IMG_H = 256;
+    parameter int SCREEN_W = 1920;
+    parameter int SCREEN_H = 1080;
 
     // testbench signals
     logic clk;
-    logic rreset_n;
+    logic reset_n;
 
     logic [11:0] pixel_x;
     logic [11:0] pixel_y;
@@ -43,6 +43,7 @@ module Compass_tb();
         .SCREEN_W(SCREEN_W),
         .SCREEN_H(SCREEN_H)
     ) iDUT (
+        .clk(clk),
         .pixel_x(pixel_x),
         .pixel_y(pixel_y),
         .center_x(center_x),
@@ -51,21 +52,29 @@ module Compass_tb();
         .sprite_valid(sprite_valid)
     );
 
+    integer file;
+    integer x, y;
+
     initial begin
         // Default signals
         clk = 0;
         reset_n = 0;
 
-        center_x = IMG_W/2;
-        center_y = IMG_H/2;
+        center_x = SCREEN_W - (IMG_W/2);
+        center_y = SCREEN_H - (IMG_H/2);
 
         // Open file
         file = $fopen("compass.hex", "w");
 
+        /**
+         * P3
+         * 256 256
+         * 255
+         */
         // Write PPM header
-        $fwrite(file, "P3\n");
-        $fwrite(file, "%0d %0d\n", IMG_W, IMG_H);
-        $fwrite(file, "255\n");
+        //$fwrite(file, "P3\n");
+        //$fwrite(file, "%0d %0d\n", IMG_W, IMG_H);
+        //$fwrite(file, "255\n");
 
         // Wait a couple cycles
         repeat (5) @(posedge clk);
@@ -73,8 +82,8 @@ module Compass_tb();
         // -------------------------
         // Scan all pixels
         // -------------------------
-        for (int y = 0; y < IMG_H; y++) begin
-            for (int x = 0; x < IMG_W; x++) begin
+        for (y = 0; y < SCREEN_H; y++) begin
+            for (x = 0; x < SCREEN_W; x++) begin
 
                 pixel_x = x;
                 pixel_y = y;
@@ -82,9 +91,10 @@ module Compass_tb();
                 @(posedge clk);
                 @(posedge clk); 
 
-                if (sprite_valid)
+                if (sprite_valid) begin
+                    $display("HIT at (%0d, %0d)", x, y);
                     $fwrite(file, "%06x\n", sprite_rgb);
-                else
+                end else
                     $fwrite(file, "%06x\n", 24'h000000);
             end
             $fwrite(file, "\n");

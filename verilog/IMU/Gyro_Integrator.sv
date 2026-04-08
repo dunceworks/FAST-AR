@@ -4,11 +4,11 @@ module Gyro_Integrator
 #(
     parameter SCALE = 16'd655
 )(
-    input logic clk,
-    input logic rst,
-    input logic sample_valid,
-    input logic signed [15:0] gyro_z_raw,
-    output logic signed [31:0] heading_angle
+    input wire clk,
+    input wire rst,
+    input wire sample_valid,
+    input wire signed [15:0] gyro_z_raw,
+    output reg signed [31:0] heading_angle
 );
 
     logic signed [31:0] delta;

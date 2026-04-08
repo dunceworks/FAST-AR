@@ -2,10 +2,10 @@
 
 module Sin_Cos_LUT
 (
-    input logic clk,
-    input logic signed [7:0] heading_angle,
-    output logic signed [15:0] sin_out,
-    output logic signed [15:0] cos_out
+    input wire clk,
+    input wire signed [7:0] heading_angle,
+    output reg signed [15:0] sin_out,
+    output reg signed [15:0] cos_out
 );
 
     logic signed [15:0] sin_table [0:255];

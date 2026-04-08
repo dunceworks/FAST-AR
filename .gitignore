@@ -2,3 +2,8 @@
 !/vivado/README_vivado.md
 /modelsim/*
 !/modelsim/README_modelsim.md
+
+/verilog/IMU/*
+!/verilog/IMU/*.sv
+
+

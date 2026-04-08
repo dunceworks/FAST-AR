@@ -2,19 +2,19 @@
 
 module Needle_Render
 #(
-    parameter LENGTH = 100,  // Length of the needle in pixels
-    parameter WIDTH = 8  // Thickness of the needle in pixels
+    parameter LENGTH = 128,  // Length of the needle in pixels
+    parameter WIDTH = 10  // Thickness of the needle in pixels
 )(
-    input logic clk,
+    input wire clk,
 
-    input logic [11:0] pixel_x,  // Current pixel x value
-    input logic [11:0] pixel_y,  // Current pixel y value
+    input wire [11:0] pixel_x,  // Current pixel x value
+    input wire [11:0] pixel_y,  // Current pixel y value
 
-    input logic [11:0] center_x, // Compass center x value
-    input logic [11:0] center_y, // Compass center y value
+    input wire [11:0] center_x, // Compass center x value
+    input wire [11:0] center_y, // Compass center y value
 
-    input logic [15:0] sin_theta,
-    input logic [15:0] cose_theta
+    input wire [15:0] sin_theta,
+    input wire [15:0] cos_theta,
 
     output logic needle_pixel
 );
@@ -48,21 +48,21 @@ module Needle_Render
     // should be colored as part of the needle.                                                               //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    logic signed [16:0] dist;
+    logic signed [16:0] distance;
     logic signed [16:0] along;
 
     always_comb begin
-        dist  = (dx_sin - dy_cos) >>> 15;
+        distance  = (dx_sin - dy_cos) >>> 15;
         along = (dx_cos + dy_sin) >>> 15;
     end
 
     logic signed [16:0] abs_dist;
 
     always_comb begin
-        if (dist < 0)
-            abs_dist = -dist;
+        if (distance < 0)
+            abs_dist = -distance;
         else
-            abs_dist = dist;
+            abs_dist = distance;
     end
 
     always_comb begin
