@@ -42,7 +42,7 @@ module downscaler_param #(
     localparam IMG_HEIGHT = 1080;
     localparam BASE2_DS = $clog2(DOWNSCALE_FACTOR); // use for bit shifts
     localparam NUM_INTERPOL_ELEMS = DOWNSCALE_FACTOR * DOWNSCALE_FACTOR; // eg. 64 for 8x8
-    localparam NUM_STAGES = $clog2(NUM_INTERPOL_ELEMS); // # stages in adder tree - log2(# interpolate elements)
+    localparam NUM_STAGES = $clog2(NUM_INTERPOL_ELEMS); // # stages in adder tree - log2(# interpolate elements) so for 64 we have 6 stages
 
     // Square size is basically user defined...
     localparam SQUARE_SIZE = OUT_SIZE * DOWNSCALE_FACTOR;
@@ -76,9 +76,9 @@ module downscaler_param #(
 
     // AXI4-Stream delay registers (6 cycle compensation)
     // Just a simple shift reg style
-    logic [5:0]tvalid_d;
-    logic [5:0]tlast_d;
-    logic [5:0]tuser_d;
+    logic [NUM_STAGES:0] tvalid_d;
+    logic [NUM_STAGES:0] tlast_d;
+    logic [NUM_STAGES:0] tuser_d;
 
 
     // Stall/pressure sig

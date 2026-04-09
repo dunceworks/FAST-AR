@@ -76,9 +76,9 @@ module downscaler_param #(
 
     // AXI4-Stream delay registers (6 cycle compensation)
     // Just a simple shift reg style
-    logic [5:0]tvalid_d;
-    logic [5:0]tlast_d;
-    logic [5:0]tuser_d;
+    logic [NUM_STAGES - 1:0]tvalid_d;
+    logic [NUM_STAGES - 1:0]tlast_d;
+    logic [NUM_STAGES - 1:0]tuser_d;
 
 
     // Stall/pressure sig
@@ -105,7 +105,7 @@ module downscaler_param #(
                     .clk(aclk),
                     .rst_n(areset_n),
                     .pixel_in(lbo[lbs]),
-                    .pixel_valid(axi4s_in.tvalid && not_cropping), // Only write to buffer if within crop region
+                    .pixel_valid(axi4s_in.tvalid && not_cropping && !stall), // Only write to buffer if within crop region
                     .pixel_out(lbo[lbs + 1]) 
                 );
         end        
@@ -121,7 +121,7 @@ module downscaler_param #(
         end
         else if (!stall) begin
             if (axi4s_in.tvalid) begin
-                if (x_count == IMG_WIDTH - 1) begin
+                if (axi4s_in.tlast) begin     // Reset when we get tlast since PCAM can be unreliable
                     x_count <= '0; // Reset at end of line
                     
                     if (y_count == IMG_HEIGHT - 1) 
@@ -129,6 +129,8 @@ module downscaler_param #(
                     else 
                         y_count <= y_count + 1; // Increment for each valid line
                     
+
+
                 end else
                     x_count <= x_count + 1; // Increment for each valid pixel
                 
@@ -157,7 +159,7 @@ module downscaler_param #(
                 for (int j = 0; j < DOWNSCALE_FACTOR; j++) 
                     pix_mat[i][j] <= '0;
         end
-        else if(not_cropping) begin
+        else if(not_cropping && !stall) begin
             for(int i = 0; i < DOWNSCALE_FACTOR; i++) begin
                 for (int j = 0; j < DOWNSCALE_FACTOR; j++) begin
                     if (j == 0)
@@ -230,21 +232,21 @@ module downscaler_param #(
             tlast_d <= '0;
             tuser_d <= '0;
         end else if (!stall) begin
-            tvalid_d <= {tvalid_d[4:0], (not_cropping && axi4s_in.tvalid && interpolate)};
-            tlast_d <= {tlast_d[4:0], (x_count == RIGHT_CROP_START - DOWNSCALE_FACTOR)};   // subtract DS_F to find the last pixel
-            tuser_d <= {tuser_d[4:0], (x_count == LEFT_CROP_STOP) && (y_count == TOP_CROP_STOP)};
+            tvalid_d <= {tvalid_d[NUM_STAGES-2:0], (not_cropping && axi4s_in.tvalid && interpolate)};
+            tlast_d <= {tlast_d[NUM_STAGES-2:0], (x_count == RIGHT_CROP_START - DOWNSCALE_FACTOR)};   // subtract DS_F to find the last pixel
+            tuser_d <= {tuser_d[NUM_STAGES-2:0], (x_count == LEFT_CROP_STOP) && (y_count == TOP_CROP_STOP)};
         end
     end
 
     // Output pixel data only if within crop region, otherwise output black
-    assign axi4s_in.tready = !stall; // Backpressure from output
+    assign axi4s_in.tready = axi4s_out.tready; // Backpressure from output
 
-    assign axi4s_out.tdata = tvalid_d[5] ? avg_pixel : '0; // Output black for pixels outside crop region
+    assign axi4s_out.tdata = tvalid_d[NUM_STAGES-1] ? avg_pixel : '0; // Output black for pixels outside crop region
     
-    assign axi4s_out.tvalid = tvalid_d[5]; // Delayed version of tvalid to account for adder tree latency (#stage cycles)
+    assign axi4s_out.tvalid = tvalid_d[NUM_STAGES-1]; // Delayed version of tvalid to account for adder tree latency (#stage cycles)
     
-    assign axi4s_out.tlast = tlast_d[5]; // Delayed version of tlast to account for adder tree latency (#stage cycles)
+    assign axi4s_out.tlast = tlast_d[NUM_STAGES-1]; // Delayed version of tlast to account for adder tree latency (#stage cycles)
     
-    assign axi4s_out.tuser = tuser_d[5];     // Only assert tuser for first pixel in crop region
+    assign axi4s_out.tuser = tuser_d[NUM_STAGES-1];     // Only assert tuser for first pixel in crop region
 
 endmodule
