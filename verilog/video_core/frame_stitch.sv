@@ -31,8 +31,8 @@ module frame_stitch #(
     input wire aclk,
     input wire areset_n,
 
-    axi4s_vid_if.dom axi4s_in,  //only one input since we're stitching in the pipeline and the second frame will be delayed to match the first
-    axi4s_vid_if.sub axi4s_out
+    axi4s_vid_if.master axi4s_in,  //only one input since we're stitching in the pipeline and the second frame will be delayed to match the first
+    axi4s_vid_if.slave axi4s_out
 );
 
 localparam OUT_WIDTH = IMG_WIDTH * 2; // Stitch two frames side by side

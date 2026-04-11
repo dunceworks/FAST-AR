@@ -1,12 +1,11 @@
 ///////////////////////////////////////////////////////// 
 //
-// File name: downscaler_param_wrapper.sv
+// File name: AXI4-Stream_Combine_wrapper.sv
 // 
-// Description: Wrapper for the downscaler_param module.
-//              Used for packaging as IP/Vivado
+// Description: Wrapper for the AXI4-Stream Combine module
 //
-// Created  : 2026-03-25
-// Modified : 2026-03-25
+// Created  : 2026-04-11
+// Modified : 2026-04-11
 // Author   : Wysong
 //
 // Team     : Dunce Works
@@ -20,12 +19,10 @@
 ////////////////////////////////////////////////////////
 
 
-module downscaler_param_wrapper #(
-    parameter OUT_SIZE = 224,   // default output size, can be overridden when instantiating
-    parameter DS_F = 4,          // MUST be a power of 2 ensure DS_F * OUT_SIZE < IMG_HEIGHT (can't create new image...)
-    parameter GRAYSCALE_INPUT = 0 // Whether the input is already grayscale (saves resources if true)
-
-)(
+module AXI4_Stream_Combine_wrapper #(
+    parameter COLOR_BITS = 8
+    )
+    (
     input wire aclk,
     input wire aresetn,
 
@@ -47,7 +44,8 @@ module downscaler_param_wrapper #(
     axi4s_vid_if axi4s_in();
     axi4s_vid_if axi4s_out();
 
-    // Flattening to allow clean vivado interconnects.
+    // Just flattening so that vivado stops throwing fits at me
+    // when packaging IP... maybe a lot more of these to come.
     assign axi4s_in.tvalid = s_axis_tvalid;
     assign axi4s_in.tdata  = s_axis_tdata;
     assign axi4s_in.tlast  = s_axis_tlast;
@@ -60,11 +58,10 @@ module downscaler_param_wrapper #(
     assign m_axis_tuser    = axi4s_out.tuser;
     assign axi4s_out.tready= m_axis_tready;
 
-    // Instantiate the downscaler
-    downscaler_param #(
-        .OUT_SIZE(OUT_SIZE),
-        .DOWNSCALE_FACTOR(DS_F)
-    ) downscaler_inst (
+    // Instantiate the module and hook it up.
+    combine #(
+        .COLOR_BITS(COLOR_BITS)
+    ) combine_inst (
         .aclk(aclk),
         .areset_n(aresetn),
         .axi4s_in(axi4s_in),

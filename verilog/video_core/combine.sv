@@ -25,9 +25,9 @@ module combine #(
     input wire aclk,
     input wire areset_n,
 
-    axi4s_vid_if.dom axi4s_RGB_in,
-    axi4s_vid_if.dom axi4s_edge_in,
-    axi4s_vid_if.sub axi4s_out
+    axi4s_vid_if.master axi4s_RGB_in,
+    axi4s_vid_if.master axi4s_edge_in,
+    axi4s_vid_if.slave axi4s_out
 
 );
     logic [COLOR_BITS-1:0] r;
@@ -47,7 +47,7 @@ module combine #(
 
 
     logic use_edge;
-    assign use_edge = axi4s_edge_in.tdata[15:8] != 0; // If edge strength is above threshold, consider it an edge
+    assign use_edge = axi4s_edge_in.tdata[15:8] != 0; // If strength is above threshold, consider it an edge
 
     // Add a single flop stage
     always_ff @(posedge aclk or negedge areset_n) begin

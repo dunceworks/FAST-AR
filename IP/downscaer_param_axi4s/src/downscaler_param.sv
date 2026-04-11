@@ -26,7 +26,8 @@
 
 module downscaler_param #(
     parameter OUT_SIZE = 128,
-    parameter DOWNSCALE_FACTOR = 8 // must be a power of 2: how many pixels we interpolate eg. 8 is 8x8 grid (up to user to check that this works...)
+    parameter DOWNSCALE_FACTOR = 8, // must be a power of 2: how many pixels we interpolate eg. 8 is 8x8 grid (up to user to check that this works...)
+    parameter GRAYSCALE_INPUT = 0 // Set to 1 if input is in grayscale (massively reduces resource utilization)
 ) 
 (
     input wire aclk,
@@ -51,8 +52,7 @@ module downscaler_param #(
     localparam RIGHT_CROP_START = LEFT_CROP_STOP + SQUARE_SIZE; //And this is where we START back up cropping
     localparam TOP_CROP_STOP = (IMG_HEIGHT - SQUARE_SIZE) / 2;
     localparam BOTTOM_CROP_START = TOP_CROP_STOP + SQUARE_SIZE;
-
-
+    localparam COLOR_BITS = GRAYSCALE_INPUT ? 8 : 24; // If grayscale we only use 8 bits, otherwise full 24 for RGB
 
 
     //////////////////////
@@ -65,13 +65,13 @@ module downscaler_param #(
     logic x_valid, y_valid, not_cropping, interpolate;
 
     // Line buffer outputs
-    logic [23:0] lbo [0:DOWNSCALE_FACTOR];
+    logic [COLOR_BITS-1:0] lbo [0:DOWNSCALE_FACTOR];
 
     // Adder tree things
-    logic [23:0] pix_mat [0:DOWNSCALE_FACTOR-1][0:DOWNSCALE_FACTOR-1]; // 8x8 matrix to downscale
-    logic [26:0] sum_r [0:NUM_STAGES][0:DOWNSCALE_FACTOR*DOWNSCALE_FACTOR-1];
-    logic [26:0] sum_g [0:NUM_STAGES][0:DOWNSCALE_FACTOR*DOWNSCALE_FACTOR-1];
-    logic [26:0] sum_b [0:NUM_STAGES][0:DOWNSCALE_FACTOR*DOWNSCALE_FACTOR-1];
+    logic [COLOR_BITS-1:0] pix_mat [0:DOWNSCALE_FACTOR-1][0:DOWNSCALE_FACTOR-1]; // 8x8 matrix to downscale
+    logic [COLOR_BITS+6:0] sum_r [0:NUM_STAGES][0:DOWNSCALE_FACTOR*DOWNSCALE_FACTOR-1];
+    logic [COLOR_BITS+6:0] sum_g [0:NUM_STAGES][0:DOWNSCALE_FACTOR*DOWNSCALE_FACTOR-1];
+    logic [COLOR_BITS+6:0] sum_b [0:NUM_STAGES][0:DOWNSCALE_FACTOR*DOWNSCALE_FACTOR-1];
     logic [23:0] avg_pixel; // Output pixel
 
     // AXI4-Stream delay registers (6 cycle compensation)
@@ -80,14 +80,11 @@ module downscaler_param #(
     logic [NUM_STAGES - 1:0]tlast_d;
     logic [NUM_STAGES - 1:0]tuser_d;
 
-
     // Stall/pressure sig
     logic stall;
     assign stall = !axi4s_out.tready; // Backpressure from output
-    
 
     assign lbo[0] = axi4s_in.tdata;
-
 
 
     //////////////////////////////
@@ -99,7 +96,7 @@ module downscaler_param #(
     generate
         for(lbs = 0; lbs < DOWNSCALE_FACTOR; lbs++) begin
                 line_buffer #(
-                    .D_WIDTH(24), // RGB888
+                    .D_WIDTH(COLOR_BITS),
                     .LINE_LENGTH(SQUARE_SIZE) // Only need to buffer the cropped line
                 ) row_buffer (
                     .clk(aclk),
@@ -123,14 +120,10 @@ module downscaler_param #(
             if (axi4s_in.tvalid) begin
                 if (axi4s_in.tlast) begin     // Reset when we get tlast since PCAM can be unreliable
                     x_count <= '0; // Reset at end of line
-                    
                     if (y_count == IMG_HEIGHT - 1) 
                         y_count <= '0; // Reset at end of frame
                     else 
                         y_count <= y_count + 1; // Increment for each valid line
-                    
-
-
                 end else
                     x_count <= x_count + 1; // Increment for each valid pixel
                 
@@ -186,9 +179,13 @@ module downscaler_param #(
     always_comb begin
         for (int i = 0; i < DOWNSCALE_FACTOR; i++) begin
             for (int j = 0; j < DOWNSCALE_FACTOR; j++) begin
-                sum_r[0][i*DOWNSCALE_FACTOR + j] = pix_mat[i][j][23:16]; // Red channel
-                sum_g[0][i*DOWNSCALE_FACTOR + j] = pix_mat[i][j][15:8];  // Green channel
-                sum_b[0][i*DOWNSCALE_FACTOR + j] = pix_mat[i][j][7:0];   // Blue channel
+                if(GRAYSCALE_INPUT) begin
+                    sum_b[0][i*DOWNSCALE_FACTOR + j] = pix_mat[i][j][7:0];   // Use only blue channel for gs
+                end else begin
+                    sum_r[0][i*DOWNSCALE_FACTOR + j] = pix_mat[i][j][23:16]; // Red channel
+                    sum_g[0][i*DOWNSCALE_FACTOR + j] = pix_mat[i][j][15:8];  // Green channel
+                    sum_b[0][i*DOWNSCALE_FACTOR + j] = pix_mat[i][j][7:0];   // Blue channel
+                end
             end
         end
     end
@@ -201,14 +198,22 @@ module downscaler_param #(
                 // made this comb and couldn't figure out why timing was trash.... oops
                 always_ff @(posedge aclk or negedge areset_n) begin
                     if(!areset_n) begin
-                        sum_r[stage + 1][n] <= '0;
-                        sum_g[stage + 1][n] <= '0;
-                        sum_b[stage + 1][n] <= '0;
+                        if(GRAYSCALE_INPUT) begin
+                            sum_b[stage + 1][n] <= '0;
+                        end else begin
+                            sum_r[stage + 1][n] <= '0;
+                            sum_g[stage + 1][n] <= '0;
+                            sum_b[stage + 1][n] <= '0;
+                        end
                     end else if (!stall) begin
                         //Stage 0 everything is filled, stage 1 every other etc. stage 6 consolidates everything to one val (we hope)
-                        sum_r[stage + 1][n] <= sum_r[stage][2*n] + sum_r[stage][2*n + 1]; 
-                        sum_g[stage + 1][n] <= sum_g[stage][2*n] + sum_g[stage][2*n + 1];
-                        sum_b[stage + 1][n] <= sum_b[stage][2*n] + sum_b[stage][2*n + 1];
+                        if(GRAYSCALE_INPUT) begin
+                            sum_b[stage + 1][n] <= sum_b[stage][2*n] + sum_b[stage][2*n + 1];
+                        end else begin
+                            sum_r[stage + 1][n] <= sum_r[stage][2*n] + sum_r[stage][2*n + 1]; 
+                            sum_g[stage + 1][n] <= sum_g[stage][2*n] + sum_g[stage][2*n + 1];
+                            sum_b[stage + 1][n] <= sum_b[stage][2*n] + sum_b[stage][2*n + 1];
+                        end
                     end
                 end
             end
@@ -216,8 +221,8 @@ module downscaler_param #(
     endgenerate
 
     // Actually assign the avg pixel now.
-    assign avg_pixel[23:16] = sum_r[NUM_STAGES][0] >> NUM_STAGES; // Divide by #_stages (bitshift)
-    assign avg_pixel[15:8]  = sum_g[NUM_STAGES][0] >> NUM_STAGES; // since # elements = 2^#_stages
+    assign avg_pixel[23:16] = GRAYSCALE_INPUT ? sum_b[NUM_STAGES][0] >> NUM_STAGES : sum_r[NUM_STAGES][0] >> NUM_STAGES; // Divide by #_stages (bitshift)
+    assign avg_pixel[15:8]  = GRAYSCALE_INPUT ? sum_b[NUM_STAGES][0] >> NUM_STAGES : sum_g[NUM_STAGES][0] >> NUM_STAGES; // since # elements = 2^#_stages
     assign avg_pixel[7:0]   = sum_b[NUM_STAGES][0] >> NUM_STAGES; // this is how much we want to shift...
 
 

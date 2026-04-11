@@ -6,6 +6,7 @@ proc init_gui { IPINST } {
   ipgui::add_param $IPINST -name "DS_F" -parent ${Page_0} -widget comboBox
   ipgui::add_param $IPINST -name "OUT_SIZE" -parent ${Page_0}
 
+  ipgui::add_param $IPINST -name "GRAYSCALE_INPUT"
 
 }
 
@@ -15,6 +16,15 @@ proc update_PARAM_VALUE.DS_F { PARAM_VALUE.DS_F } {
 
 proc validate_PARAM_VALUE.DS_F { PARAM_VALUE.DS_F } {
 	# Procedure called to validate DS_F
+	return true
+}
+
+proc update_PARAM_VALUE.GRAYSCALE_INPUT { PARAM_VALUE.GRAYSCALE_INPUT } {
+	# Procedure called to update GRAYSCALE_INPUT when any of the dependent parameters in the arguments change
+}
+
+proc validate_PARAM_VALUE.GRAYSCALE_INPUT { PARAM_VALUE.GRAYSCALE_INPUT } {
+	# Procedure called to validate GRAYSCALE_INPUT
 	return true
 }
 
@@ -36,5 +46,10 @@ proc update_MODELPARAM_VALUE.OUT_SIZE { MODELPARAM_VALUE.OUT_SIZE PARAM_VALUE.OU
 proc update_MODELPARAM_VALUE.DS_F { MODELPARAM_VALUE.DS_F PARAM_VALUE.DS_F } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
 	set_property value [get_property value ${PARAM_VALUE.DS_F}] ${MODELPARAM_VALUE.DS_F}
+}
+
+proc update_MODELPARAM_VALUE.GRAYSCALE_INPUT { MODELPARAM_VALUE.GRAYSCALE_INPUT PARAM_VALUE.GRAYSCALE_INPUT } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.GRAYSCALE_INPUT}] ${MODELPARAM_VALUE.GRAYSCALE_INPUT}
 }
 
