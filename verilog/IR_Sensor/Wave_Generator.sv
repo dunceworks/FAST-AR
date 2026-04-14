@@ -17,17 +17,16 @@
 `default_nettype none
 
 module Wave_Generator.sv(
-    parameter tune_word = 16'd601 // The tuning word determines the pitch of the beep.
-)(
     input wire clk,
     input wire rst_n,
-    input wire 48kz_tick,
+    input wire tick_48khz,
     input wire sensor,
     output reg [15:0] data
 );
 
 reg [15:0] accumulator;
 reg [15:0] rom [0:255];
+reg [15:0] tune_word = 16'd601 // The tuning word determines the pitch of the beep.
 
 // Load the beep sine wave rom
 initial begin
@@ -38,7 +37,7 @@ always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
         accumulator <= 0;
         data <= 0;
-    end else if (48kz_tick) begin
+    end else if (tick_48khz) begin
         if (sensor) begin
             accumulator <= accumulator + tune_word;
             data <= rom[accumulator[15:8]];

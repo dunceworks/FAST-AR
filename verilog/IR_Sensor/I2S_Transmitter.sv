@@ -21,7 +21,7 @@ module I2S_Transmitter(
     input wire bit_clk,
     input wire word_clk_rise,
     input wire word_clk_fall,
-    input wire data_in,
+    input wire [15:0] data_in,
     input wire rst_n,
     output reg data_out
 );

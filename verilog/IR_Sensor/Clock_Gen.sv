@@ -10,7 +10,7 @@
 //
 // Team     : Dunce Works
 //
-// Written?     []
+// Written?     [X]
 // Tested?      []
 //
 ///////////////////////////////////////////////////////////////////
@@ -21,7 +21,7 @@ module Clock_Gen (
 
     // Physical pins that go straight out to the TLV320 Codec
     output reg  bit_clk,
-    output reg  word_clk, // Often called LRCLK
+    output reg  word_clk,
 
     // Internal 1-cycle pulses to drive your other modules safely
     output reg  bclk_fall_tick,
@@ -34,10 +34,10 @@ module Clock_Gen (
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            bclk_div_cnt   <= 0;
-            bit_cnt        <= 0;
-            bit_clk       <= 0;
-            word_clk       <= 0;
+            bclk_div_cnt <= 0;
+            bit_cnt <= 0;
+            bit_clk <= 0;
+            word_clk <= 0;
             bclk_fall_tick <= 0;
             wclk_rise_tick <= 0;
             wclk_fall_tick <= 0;
@@ -69,7 +69,7 @@ module Clock_Gen (
                 // Track where we are in the 32-bit audio frame
                 bit_cnt <= bit_cnt + 1;
 
-                // I2S Standard: Word Clock toggles on the falling edge of BCLK
+                // I2S Standard: Word Clock toggles on the falling edge of the bit clock
                 if (bit_cnt == 15) begin
                     word_clk <= 1'b1;       // Right Channel Start
                     wclk_rise_tick <= 1'b1; // Tell the Transmitter!
