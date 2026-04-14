@@ -2,7 +2,7 @@
 //
 // File name: I2S_Transmitter.sv
 // 
-// Description: Module serially transmit sound data to the codec
+// Description: Module to serially transmit sound data to the codec
 //
 // Created  : 2026-04-12
 // Modified : 2026-04-12
@@ -10,7 +10,7 @@
 //
 // Team     : Dunce Works
 //
-// Written?     []
+// Written?     [X]
 // Tested?      []
 //
 ///////////////////////////////////////////////////////////////////
