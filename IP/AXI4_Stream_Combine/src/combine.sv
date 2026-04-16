@@ -65,8 +65,6 @@ module combine #(
 
     // Output logic: if edge detected (edge_in > 128), output neon green, else output RGB
 
-
-
     always_ff @(posedge aclk or negedge areset_n) begin
         if(!areset_n) begin
             r <= 0;
@@ -86,8 +84,8 @@ module combine #(
     assign axi4s_out.tuser = tuser_flopped;
 
 
-    assign axi4s_RGB_in.tready = data_valid ? axi4s_out.tready : 1'b1;    //tready flows *UP* the pipeline
-    assign axi4s_edge_in.tready = data_valid ? axi4s_out.tready : 1'b1;    //tready flows *UP* the pipeline
+    assign axi4s_RGB_in.tready = !stall && (!axi4s_RGB_in.tvalid  || data_valid);    //tready flows *UP* the pipeline
+    assign axi4s_edge_in.tready = !stall && (!axi4s_edge_in.tvalid  || data_valid);    //tready flows *UP* the pipeline
 
 
 endmodule

@@ -57,7 +57,7 @@ module combine #(
             tready_flopped <= 1'b0;
             tuser_flopped <= 1'b0;
         end else if (!stall) begin
-            tvalid_flopped <= axi4s_RGB_in.tvalid && axi4s_edge_in.tvalid; // valid when both inputs are valid
+            tvalid_flopped <= axi4s_RGB_in.tvalid; // valid when both inputs are valid
             tlast_flopped <= axi4s_RGB_in.tlast;
             tuser_flopped <= axi4s_RGB_in.tuser;
         end

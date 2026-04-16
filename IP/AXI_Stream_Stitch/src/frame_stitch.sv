@@ -49,13 +49,19 @@ always_ff @(posedge aclk or negedge areset_n) begin
     if (!areset_n) begin
         x_count <= 0;
     end else if (!stall) begin 
-        if (axi4s_in.tvalid || (x_count != 0)) begin  // use tvalid for first line, then rely on x_count to keep going until we finish the stitched line
-            if (x_count == OUT_WIDTH - 1) begin
-                x_count <= 0; // Reset at end of line
-                axi4s_out.tlast <= 1; // Assert tlast at end of stitched line
-            end else begin
-                x_count <= x_count + 1; // Increment for each valid pixel
-            end
+
+        if (x_count >= IMG_WIDTH) begin     // no new data
+            if(x_count == OUT_WIDTH - 1) begin
+                x_count <= 0;
+            end else
+                x_count <= x_count + 1;
+        end
+        
+        else if (axi4s_in.tvalid) begin     // if receivingn new data do increment as expected - reset on new frame
+            if (axi4s_in.tuser) begin
+                x_count <= 1; // Reset at end of line
+            end else
+                x_count <= x_count + 1;
         end
     end
 end
@@ -69,8 +75,8 @@ line_buffer #(
     .clk(aclk),
     .rst_n(areset_n),
     .pixel_in(axi4s_in.tdata),
-    .pixel_valid(!stall),           // Free running as long as we're not stalled
-    .pixel_out(line_buffer_out)     // Output the delayed line for stitching
+    .pixel_valid(!stall),               // Run as long as data is valid and we're not stalling
+    .pixel_out(line_buffer_out)         // Output the delayed line for stitching
 );
 
 // Should be perfectly timed such that we can stitch two frames together. 
@@ -82,7 +88,9 @@ line_buffer #(
 assign axi4s_in.tready = !stall;// && (x_count < IMG_WIDTH ) ; // Stall the input if we're still flushing the buffer.
                                 // The above && onward can be removed (I think) in the final implementation. Just needed for testing.
 // Data valid when we have valid input or we're still flushing out the stitched line, and not stalled
-assign axi4s_out.tvalid = (axi4s_in.tvalid || x_count != 0) && !stall; 
+assign axi4s_out.tvalid = ((x_count < IMG_WIDTH && axi4s_in.tvalid) || (x_count >= IMG_WIDTH)); 
+
+assign axi4s_out.tlast = x_count == (OUT_WIDTH - 1); // Assert tlast at the end of the stitched line
 
 assign axi4s_out.tdata = x_count < IMG_WIDTH ? axi4s_in.tdata : line_buffer_out;
 assign axi4s_out.tuser = x_count == 0 && axi4s_in.tuser; // Assert tuser at start of stitched line
