@@ -33,4 +33,11 @@ QuestaSim vlog 2024.3_2 Compiler 2024.11 Nov 25 2024
 Top level modules:
 	Sensor_Synchronizer
 
+} {} {}} /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2C_Config.sv {1 {vlog -work work -vopt -sv -stats=none /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2C_Config.sv
+QuestaSim vlog 2024.3_2 Compiler 2024.11 Nov 25 2024
+-- Compiling module I2C_Config
+
+Top level modules:
+	I2C_Config
+
 } {} {}}

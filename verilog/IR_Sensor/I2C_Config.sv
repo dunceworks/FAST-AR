@@ -55,7 +55,7 @@ module I2C_Config (
     
     initial begin
         // --- 1. INITIALIZATION & CLOCKS ---
-        rom  = 16'h00_00; // Select Page 0
+        rom[0]  = 16'h0000; // Select Page 0
         rom[1]  = 16'h01_01; // Software Reset (Wakes up the chip)
         
         // Assume FPGA provides MCLK. Route MCLK directly to the Codec Clock.
