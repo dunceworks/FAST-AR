@@ -23,7 +23,8 @@ module Sensor_Synchronizer(
     output reg sensor
 );
 
-(* ASYNC_REG = "TRUE" *) reg ff0, ff1, sensor;
+//(* ASYNC_REG = "TRUE" *) reg ff0, ff1, sensor;
+reg ff0, ff1;
 
 always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin

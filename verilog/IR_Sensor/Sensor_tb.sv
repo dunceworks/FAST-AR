@@ -75,9 +75,14 @@ module Sensor_tb();
 
         repeat (100) @(negedge clk);
 
+        sensor = 1;
+
         repeat (10000) @(negedge clk);
 
         repeat (5000) @(negedge clk);
+
+        $display("Simulation finished. Inspect waveforms.");
+        $stop;
     end
 
     always #5 clk = ~clk; // clock gen

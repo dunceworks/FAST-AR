@@ -1,0 +1,127 @@
+# //  Questa Sim
+# //  Version 2024.3_2 linux Nov 25 2024
+# //
+# // Unpublished work. Copyright 2024 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading project IR_Sensor
+# Compile of I2S_Transmitter.sv was successful.
+# Compile of Sensor_Synchronizer.sv failed with 1 errors.
+# Compile of Sensor_Synchronizer.sv failed with 4 errors.
+# Compile of Sensor_Synchronizer.sv was successful.
+# Compile of Wave_Generator.sv failed with 1 errors.
+# Compile of Wave_Generator.sv failed with 2 errors.
+# Compile of Wave_Generator.sv was successful.
+vsim work.Sensor_tb -voptargs=+acc
+# vsim work.Sensor_tb -voptargs="+acc" 
+# Start time: 15:39:25 on Apr 16,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+# Support of the MGLS_LICENSE_FILE and LM_LICENSE_FILE licensing environment variables will be discontinued starting with the 2025.1 release. Please update to using the SALT_LICENSE_SERVER variable.
+# Please contact Siemens EDA Customer Support (https://support.sw.siemens.com/) for assistance.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.Sensor_tb(fast)
+# Loading work.Clock_Gen(fast)
+# Loading work.Wave_Generator(fast)
+# Loading work.I2S_Transmitter(fast)
+add wave -position insertpoint  \
+sim:/Sensor_tb/clk \
+sim:/Sensor_tb/rst_n \
+sim:/Sensor_tb/sensor \
+sim:/Sensor_tb/bit_clk_fall \
+sim:/Sensor_tb/word_clk_rise \
+sim:/Sensor_tb/word_clk_fall \
+sim:/Sensor_tb/bit_clk \
+sim:/Sensor_tb/word_clk \
+sim:/Sensor_tb/audio_data \
+sim:/Sensor_tb/I2S_data_out
+run -all
+# Break key hit
+# Simulation stop requested.
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading work.Sensor_tb(fast)
+# Loading work.Clock_Gen(fast)
+# Loading work.Wave_Generator(fast)
+# Loading work.I2S_Transmitter(fast)
+quit -sim
+# End time: 15:42:08 on Apr 16,2026, Elapsed time: 0:02:43
+# Errors: 0, Warnings: 2
+# Compile of Sensor_tb.sv was successful.
+vsim -voptargs=+acc work.Sensor_tb
+# vsim -voptargs="+acc" work.Sensor_tb 
+# Start time: 15:43:15 on Apr 16,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+# Support of the MGLS_LICENSE_FILE and LM_LICENSE_FILE licensing environment variables will be discontinued starting with the 2025.1 release. Please update to using the SALT_LICENSE_SERVER variable.
+# Please contact Siemens EDA Customer Support (https://support.sw.siemens.com/) for assistance.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.Sensor_tb(fast)
+# Loading work.Clock_Gen(fast)
+# Loading work.Wave_Generator(fast)
+# Loading work.I2S_Transmitter(fast)
+add wave -position insertpoint  \
+sim:/Sensor_tb/clk \
+sim:/Sensor_tb/rst_n \
+sim:/Sensor_tb/sensor \
+sim:/Sensor_tb/bit_clk_fall \
+sim:/Sensor_tb/word_clk_rise \
+sim:/Sensor_tb/word_clk_fall \
+sim:/Sensor_tb/bit_clk \
+sim:/Sensor_tb/word_clk \
+sim:/Sensor_tb/audio_data \
+sim:/Sensor_tb/I2S_data_out
+# Load canceled
+run -all
+# Simulation finished. Inspect waveforms.
+# ** Note: $stop    : /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_tb.sv(83)
+#    Time: 151100 ns  Iteration: 1  Instance: /Sensor_tb
+# Break in Module Sensor_tb at /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_tb.sv line 83
+quit -sim
+# End time: 15:46:51 on Apr 16,2026, Elapsed time: 0:03:36
+# Errors: 0, Warnings: 3
+# Compile of Sensor_tb.sv was successful.
+vsim -voptargs=+acc work.Sensor_tb
+# vsim -voptargs="+acc" work.Sensor_tb 
+# Start time: 15:47:06 on Apr 16,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+# Support of the MGLS_LICENSE_FILE and LM_LICENSE_FILE licensing environment variables will be discontinued starting with the 2025.1 release. Please update to using the SALT_LICENSE_SERVER variable.
+# Please contact Siemens EDA Customer Support (https://support.sw.siemens.com/) for assistance.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.Sensor_tb(fast)
+# Loading work.Clock_Gen(fast)
+# Loading work.Wave_Generator(fast)
+# Loading work.I2S_Transmitter(fast)
+add wave -position insertpoint  \
+sim:/Sensor_tb/clk \
+sim:/Sensor_tb/rst_n \
+sim:/Sensor_tb/sensor \
+sim:/Sensor_tb/bit_clk_fall \
+sim:/Sensor_tb/word_clk_rise \
+sim:/Sensor_tb/word_clk_fall \
+sim:/Sensor_tb/bit_clk \
+sim:/Sensor_tb/word_clk \
+sim:/Sensor_tb/audio_data \
+sim:/Sensor_tb/I2S_data_out
+run -all
+# Simulation finished. Inspect waveforms.
+# ** Note: $stop    : /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_tb.sv(85)
+#    Time: 151100 ns  Iteration: 1  Instance: /Sensor_tb
+# Break in Module Sensor_tb at /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_tb.sv line 85
+quit
+# End time: 15:55:15 on Apr 16,2026, Elapsed time: 0:08:09
+# Errors: 0, Warnings: 3

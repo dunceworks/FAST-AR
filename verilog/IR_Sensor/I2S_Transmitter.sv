@@ -29,7 +29,7 @@ module I2S_Transmitter(
     reg [15:0] shift_reg;
     reg [3:0] bit_cnt;
 
-    always_ff @(posedge of clk or negedge rst_n) begin
+    always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             shift_reg <= 16'h00_00;
             bit_cnt <= 4'h0;

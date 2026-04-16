@@ -1,0 +1,36 @@
+/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Clock_Gen.sv {1 {vlog -work work -vopt -sv -stats=none /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Clock_Gen.sv
+QuestaSim vlog 2024.3_2 Compiler 2024.11 Nov 25 2024
+-- Compiling module Clock_Gen
+
+Top level modules:
+	Clock_Gen
+
+} {} {}} /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Wave_Generator.sv {1 {vlog -work work -vopt -sv -stats=none /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Wave_Generator.sv
+QuestaSim vlog 2024.3_2 Compiler 2024.11 Nov 25 2024
+-- Compiling module Wave_Generator
+
+Top level modules:
+	Wave_Generator
+
+} {} {}} /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2S_Transmitter.sv {1 {vlog -work work -vopt -sv -stats=none /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2S_Transmitter.sv
+QuestaSim vlog 2024.3_2 Compiler 2024.11 Nov 25 2024
+-- Compiling module I2S_Transmitter
+
+Top level modules:
+	I2S_Transmitter
+
+} {} {}} /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_tb.sv {1 {vlog -work work -vopt -sv -stats=none /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_tb.sv
+QuestaSim vlog 2024.3_2 Compiler 2024.11 Nov 25 2024
+-- Compiling module Sensor_tb
+
+Top level modules:
+	Sensor_tb
+
+} {} {}} /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_Synchronizer.sv {1 {vlog -work work -vopt -sv -stats=none /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_Synchronizer.sv
+QuestaSim vlog 2024.3_2 Compiler 2024.11 Nov 25 2024
+-- Compiling module Sensor_Synchronizer
+
+Top level modules:
+	Sensor_Synchronizer
+
+} {} {}}
