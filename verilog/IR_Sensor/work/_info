@@ -1,0 +1,188 @@
+m255
+K4
+z2
+Z0 !s12c _opt
+Z1 !s99 nomlopt
+R0
+R1
+R0
+R1
+!s11f vlog 2024.3_2 2024.11, Nov 25 2024
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z2 d/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IMU
+T_opt
+!s110 1776372426
+Vf7G:LTE54LbmQA5zePCaf1
+04 9 4 work Sensor_tb fast 0
+=1-000ae431a4f1-69e14aca-31491-21fcb6
+R1
+!s12f OEM100
+!s12b OEM100
+!s124 OEM100
+!s135 nogc
+o-quiet -auto_acc_if_foreign -work work +acc
+Z3 tCvgOpt 0
+n@_opt
+OE;O;2024.3_2;79
+R2
+vClock_Gen
+2/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Clock_Gen.sv
+Z4 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+!s110 1776371626
+!i10b 1
+!s100 `8ZWW3lY@8e>QTWd:L8SA0
+I@<[n9P5mRkPHdVXiKPPbo2
+S1
+Z5 d/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor
+w1776371503
+8/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Clock_Gen.sv
+F/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Clock_Gen.sv
+!i122 0
+L0 18 67
+Z6 VDg1SIo80bB@j0V0VzS_@n1
+Z7 OE;L;2024.3_2;79
+r1
+!s85 0
+31
+!s108 1776371626.000000
+!s107 /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Clock_Gen.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Clock_Gen.sv|
+!i113 0
+Z8 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R3
+n@clock_@gen
+vI2C_Config
+2/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2C_Config.sv
+R4
+!s110 1776374291
+!i10b 1
+!s100 LdP7R73JSZeFUW7XGB9512
+IYHj6EMSzCa6nBS]=9khd?3
+S1
+R5
+w1776374278
+8/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2C_Config.sv
+F/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2C_Config.sv
+!i122 7
+L0 20 176
+R6
+R7
+r1
+!s85 0
+31
+!s108 1776374291.000000
+!s107 /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2C_Config.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2C_Config.sv|
+!i113 0
+R8
+R3
+n@i2@c_@config
+vI2S_Transmitter
+2/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2S_Transmitter.sv
+R4
+!s110 1776371801
+!i10b 1
+!s100 WVG=KKD0^Ii_EMn=H1O5o1
+I[K@DN7fC0UTJl>80QI83=0
+S1
+R5
+w1776371768
+8/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2S_Transmitter.sv
+F/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2S_Transmitter.sv
+!i122 2
+L0 19 34
+R6
+R7
+r1
+!s85 0
+31
+!s108 1776371801.000000
+!s107 /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2S_Transmitter.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/I2S_Transmitter.sv|
+!i113 0
+R8
+R3
+n@i2@s_@transmitter
+vSensor_Synchronizer
+2/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_Synchronizer.sv
+R4
+!s110 1776371875
+!i10b 1
+!s100 =?m^g[Knd4GPm2?3LUh>C1
+IDH<OjzQL>z?gOPdR5X@4A1
+S1
+R5
+w1776371870
+8/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_Synchronizer.sv
+F/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_Synchronizer.sv
+!i122 3
+L0 19 23
+R6
+R7
+r1
+!s85 0
+31
+!s108 1776371875.000000
+!s107 /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_Synchronizer.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_Synchronizer.sv|
+!i113 0
+R8
+R3
+n@sensor_@synchronizer
+vSensor_tb
+2/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_tb.sv
+R4
+!s110 1776372414
+!i10b 1
+!s100 ^4V=P5<Gd<V8bgUX?joi^1
+I=<NZjQm73:<fdXTnYG]WI3
+S1
+R5
+w1776372381
+8/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_tb.sv
+F/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_tb.sv
+!i122 6
+L0 21 70
+R6
+R7
+r1
+!s85 0
+31
+!s108 1776372414.000000
+!s107 /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_tb.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Sensor_tb.sv|
+!i113 0
+R8
+R3
+n@sensor_tb
+vWave_Generator
+2/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Wave_Generator.sv
+R4
+!s110 1776371946
+!i10b 1
+!s100 8^E_SfBTc]PK31cO94C;E2
+IWEac]miMgFL=PXV?UO`Ye1
+S1
+R5
+w1776371941
+8/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Wave_Generator.sv
+F/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Wave_Generator.sv
+!i122 4
+L0 19 33
+R6
+R7
+r1
+!s85 0
+31
+!s108 1776371946.000000
+!s107 /filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Wave_Generator.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|/filespace/c/cadiena/ECE_554/FAST-AR/verilog/IR_Sensor/Wave_Generator.sv|
+!i113 0
+R8
+R3
+n@wave_@generator
