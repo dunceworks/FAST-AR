@@ -50,10 +50,12 @@ module crop_image #(
     always_ff @(posedge aclk or negedge areset_n) begin
         if(!areset_n)
             tuser_p <= 0;
-        else if(axi4s_in.tvalid)
-            tuser_p <= axi4s_in.tuser; // Capture tuser to identify start of frame
-        else if(axi4s_out.tvalid && axi4s_out.tuser)
+        else if(axi4s_in.tvalid && axi4s_in.tuser) begin
+            tuser_p <= 1'b1; // Capture tuser to identify start of frame
+        end
+        if(axi4s_out.tvalid && axi4s_out.tuser)begin
             tuser_p <= 0; // Reset tuser_p at start of output frame
+        end
     end
     
 

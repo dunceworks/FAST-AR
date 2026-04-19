@@ -32,16 +32,37 @@ module axi4s_checker #(
     axi4s_vid_if.master axi4s_in    // No axi out. Terminates here :D
 );
 
-
+parameter DIMENSION = $clog2(EXPECTED_WIDTH);
 
 //Internal counters. Nothing elegant here. Coming off a long day.
-logic [clog2(EXPECTED_WIDTH)+1:0] x_counter;
-logic [clog2(EXPECTED_HEIGHT)+1:0] y_counter;
+logic [DIMENSION+1:0] x_counter;
+logic [DIMENSION+1:0] y_counter;
 
 always_ff @(posedge aclk or negedge areset_n) begin
     if(areset_n)
         x_counter <= '0;
-    else if (axi4s_in.tvalid && axi4s_in.)
+
+
+    else if (axi4s_in.tvalid && axi4s_in.tready) begin
+
+        if(axi4s_in.tuser) begin
+            x_counter <= '0;
+            y_counter <= '0;
+        end
+        else if (axi4s_in.tlast) begin
+            if (x_counter != EXPECTED_WIDTH)
+                $display("Error: Expected width of %0d, but got %0d at line %0d", EXPECTED_WIDTH, x_counter, $line);
+            x_counter <= '0;
+            y_counter <= y_counter + 1;
+            if (y_counter == EXPECTED_HEIGHT) begin
+                $display("Info: Reached expected height of %0d at line %0d", EXPECTED_HEIGHT, $line);
+                y_counter <= '0; // Reset for next frame
+            end
+        end
+        else
+            x_counter <= x_counter + 1;
+
+    end
 
 end
 

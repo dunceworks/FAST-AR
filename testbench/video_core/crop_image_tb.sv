@@ -37,6 +37,7 @@ logic [(COLOR_BITS*3)-1:0] test_image [0:IMG_SIZE-1];
 
 // Output file handle
 integer file_out;
+logic RANDOM_STALL; // Random stall signal for testing backpressure handling
 
 //Instantiate DUT (ohmygosh look how clean it looks :D )
 crop_image #(
@@ -47,6 +48,16 @@ crop_image #(
     .areset_n(reset_n),
     .axi4s_in(axi4s_in_intf),
     .axi4s_out(axi4s_out_intf)
+);
+
+axi4s_checker #(
+    .EXPECTED_WIDTH(960),
+    .EXPECTED_HEIGHT(IMG_HEIGHT)
+) ichecker (
+    .aclk(clk),
+    .areset_n(reset_n),
+    .RANDOM_STALL(RANDOM_STALL),
+    .axi4s_in(axi4s_out_intf) // Check the output of the DUT
 );
 
 
@@ -70,35 +81,39 @@ initial begin
     //Set tready on axi4s_out to 1 to indicate we're ready to receive data (upstream flow of tready)
     axi4s_out_intf.tready <= 1'b1;
 
-    // For loop over the test image and send pixels into the DUT
-    for (int i = 0; i < IMG_SIZE; i++) begin
-        axi4s_in_intf.tvalid <= 1'b1;
-        axi4s_in_intf.tdata <= test_image[i];
+    // Test multiple frames (ok they're all the same frame but still :D )
+    for(int j = 0; j < 4; j++) begin
+            // For loop over the test image and send pixels into the DUT
+        for (int i = 0; i < IMG_SIZE; i++) begin
+            axi4s_in_intf.tvalid <= 1'b1;
+            axi4s_in_intf.tdata <= test_image[i];
 
-        // Wait until DUT is ready to receive data
-        while (!axi4s_in_intf.tready) begin
-            $display("Waiting for tready...");
-            axi4s_in_intf.tvalid <= 1'b0; // Don't send data until ready
+            // Wait until DUT is ready to receive data
+            while (!axi4s_in_intf.tready) begin
+                // $display("Waiting for tready...");
+                axi4s_in_intf.tvalid <= 1'b0; // Don't send data until ready
+                @(posedge clk);
+            end
+
+
+            // Send data
+
+            if(i == 0)
+                axi4s_in_intf.tuser <= 1'b1; // First pixel of the frame
+            else
+                axi4s_in_intf.tuser <= 1'b0;
+            
+            if (((i + 1) % IMG_WIDTH) == 0) begin
+                axi4s_in_intf.tlast <= 1'b1; // Last pixel
+            end else begin
+                axi4s_in_intf.tlast <= 1'b0;
+            end
+
+            // Wait for one cycle to send the data
             @(posedge clk);
         end
-
-
-        // Send data
-
-        if(i == 0)
-            axi4s_in_intf.tuser <= 1'b1; // First pixel of the frame
-        else
-            axi4s_in_intf.tuser <= 1'b0;
-        
-        if (((i + 1) % IMG_WIDTH) == 0) begin
-            axi4s_in_intf.tlast <= 1'b1; // Last pixel
-        end else begin
-            axi4s_in_intf.tlast <= 1'b0;
-        end
-
-        // Wait for one cycle to send the data
-        @(posedge clk);
     end
+    
 
     axi4s_in_intf.tvalid <= 1'b0; // Done sending data
 
@@ -124,6 +139,23 @@ always begin
 
         // Write the output pixel to the file in hex format
         $fwrite(file_out, "%h\n", out_pixel); // Write output in hex format
+    end
+
+end
+
+always begin
+
+    // Randomly assert stall to test backpressure handling
+    @(posedge clk);
+    if ($urandom_range(0, 100000) < 1) begin // 0.001% chance to stall
+        RANDOM_STALL <= 1'b1;
+        axi4s_out_intf.tready <= 1'b0; // Assert backpressure
+        // $display("Random stall asserted at time %t", $time);
+        for(int i = 0; i < $urandom_range(5, 100); i++) // Stall for "some" cycles
+            @(posedge clk);
+    end else begin
+        RANDOM_STALL <= 1'b0;
+        axi4s_out_intf.tready <= 1'b1; // Deassert backpressure
     end
 
 end
