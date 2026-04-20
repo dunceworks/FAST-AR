@@ -29,7 +29,7 @@ module bounding_box
     parameter DOWNSCALE_SIZE = 224,
     parameter LINE_WIDTH = 10, // Thickness of the bounding box lines in pixels
     parameter INPUT_WIDTH = 1920,
-    parameter INPUT_HEIGHT = 1080,
+    parameter INPUT_HEIGHT = 1080
 )
 (
     input wire aclk,
