@@ -53,7 +53,7 @@ module crop_image #(
         else if(axi4s_in.tvalid && axi4s_in.tuser) begin
             tuser_p <= 1'b1; // Capture tuser to identify start of frame
         end
-        if(axi4s_out.tvalid && axi4s_out.tuser)begin
+        else if(axi4s_out.tvalid && axi4s_out.tuser)begin
             tuser_p <= 0; // Reset tuser_p at start of output frame
         end
     end
