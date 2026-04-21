@@ -5,7 +5,7 @@
 // Description: Module to configure the audio codec
 //
 // Created  : 2026-04-09
-// Modified : 2026-04-10
+// Modified : 2026-04-21
 // Author(s): Cadiena
 //
 // Team     : Dunce Works
@@ -21,9 +21,9 @@ module I2C_Config (
     input  wire clk,         // Your 100MHz PL clock
     input  wire rst_n,       // Active-low reset
     
-    // Codec I2C Pins (F5 and G5 on your board)
-    inout  wire I2C_AIC_SDA, 
-    output wire I2C_AIC_SCL, 
+    // Codec I2C Pins
+    inout  wire I2C_SDA, 
+    output wire I2C_SCL, 
     output reg  AIC_nRST,    // Codec reset pin (E2)
     
     output reg  config_done  // Goes high when finished
@@ -48,8 +48,6 @@ module I2C_Config (
     end
 
     // --- 2. CONFIGURATION ROM ---
-    // Store your Register Addresses and Data here.
-    // Example: 4 commands total (Change NUM_CMDS as needed)
     localparam NUM_CMDS = 21;
     reg [15:0] rom [0:NUM_CMDS-1];
     
@@ -97,11 +95,11 @@ module I2C_Config (
     
     // Open-Drain driving for SDA (Never drive 1, only pull 0 or float Z)
     reg sda_out;
-    assign I2C_AIC_SDA = (sda_out == 0) ? 1'b0 : 1'bz;
+    assign I2C_SDA = (sda_out == 0) ? 1'b0 : 1'bz;
     
     // Simple SCL driving
     reg scl_out;
-    assign I2C_AIC_SCL = scl_out;
+    assign I2C_SCL = scl_out;
 
     localparam S_RESET = 0, S_START = 1, S_SEND_DEV_ADDR = 2, S_ACK1 = 3;
     localparam S_SEND_REG_ADDR = 4, S_ACK2 = 5, S_SEND_DATA = 6, S_ACK3 = 7;
@@ -187,7 +185,7 @@ module I2C_Config (
                 end
                 
                 S_DONE: begin
-                    config_done <= 1; // Tell the rest of your FPGA we are ready!
+                    config_done <= 1; 
                 end
             endcase
         end

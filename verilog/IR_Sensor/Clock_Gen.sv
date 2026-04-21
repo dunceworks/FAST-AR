@@ -5,7 +5,7 @@
 // Description: Generates the clock signals used to interact with the audio codec
 //
 // Created  : 2026-04-14
-// Modified : 2026-04-14
+// Modified : 2026-04-21
 // Author(s): Cadiena
 //
 // Team     : Dunce Works
@@ -23,7 +23,7 @@ module Clock_Gen (
     output reg  bit_clk,
     output reg  word_clk,
 
-    // Internal 1-cycle pulses to drive your other modules safely
+    // Internal 1-cycle pulses to drive other modules
     output reg  bclk_fall_tick,
     output reg  wclk_rise_tick,
     output reg  wclk_fall_tick
@@ -44,7 +44,7 @@ module Clock_Gen (
             
         end else begin
             
-            // 1. Default state: Ticks are strictly 1-cycle pulses!
+            // 1. Default state: Ticks are 1 cycle pulses
             bclk_fall_tick <= 0;
             wclk_rise_tick <= 0;
             wclk_fall_tick <= 0;
@@ -63,7 +63,7 @@ module Clock_Gen (
             end else if (bclk_div_cnt == 32) begin
                 bit_clk <= 1'b0; // Falling edge of physical Bit Clock
                 
-                // Fire the internal Bit Clock tick!
+                // Send out the bit clock tick
                 bclk_fall_tick <= 1'b1; 
                 
                 // Track where we are in the 32-bit audio frame
@@ -72,11 +72,11 @@ module Clock_Gen (
                 // I2S Standard: Word Clock toggles on the falling edge of the bit clock
                 if (bit_cnt == 15) begin
                     word_clk <= 1'b1;       // Right Channel Start
-                    wclk_rise_tick <= 1'b1; // Tell the Transmitter!
+                    wclk_rise_tick <= 1'b1; // Tell the Transmitter
                     
                 end else if (bit_cnt == 31) begin
                     word_clk <= 1'b0;       // Left Channel Start
-                    wclk_fall_tick <= 1'b1; // Tell the Transmitter!
+                    wclk_fall_tick <= 1'b1; // Tell the Transmitter
                 end
             end
         end
