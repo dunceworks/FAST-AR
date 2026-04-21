@@ -5,7 +5,7 @@
 // Description: Module synchronizing the asynchronous sensor input
 //
 // Created  : 2026-04-09
-// Modified : 2026-04-09
+// Modified : 2026-04-21
 // Author(s): Cadiena
 //
 // Team     : Dunce Works
@@ -23,8 +23,8 @@ module Sensor_Synchronizer(
     output reg sensor
 );
 
-//(* ASYNC_REG = "TRUE" *) reg ff0, ff1, sensor;
-reg ff0, ff1;
+(* ASYNC_REG = "TRUE" *) reg ff0, ff1, sensor; // For FPGA optimization
+//reg ff0, ff1; // For tesbenching in Questa
 
 always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
