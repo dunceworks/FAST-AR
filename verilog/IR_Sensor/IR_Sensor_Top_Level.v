@@ -21,8 +21,8 @@ module IR_Sensor_Top_Level(
     input wire sensor,
 
     // I2C pins to setup codec
-    output wire I2C_SCL,
-    inout wire I2C_SDA,
+    // output wire I2C_SCL,
+    // inout wire I2C_SDA,
 
     // I2S pins to exchange data
     output wire I2S_BCLK,
@@ -33,15 +33,15 @@ module IR_Sensor_Top_Level(
     // Internal signals
     wire sensor_synch;
     wire word_clk_fall, word_clk_rise, bit_clk_fall;
-    wire [15:0] audio data;
+    wire [15:0] audio_data;
 
-    // I2C setup
-    I2C_Config u_i2c_setup(
-        .clk(clk),
-        .rst_n(rst_n),
-        .I2C_SCL(I2C_SCL),
-        .I2C_SDA(I2C_SDA)
-    );
+    // // I2C setup
+    // I2C_Config u_i2c_setup(
+    //     .clk(clk),
+    //     .rst_n(rst_n),
+    //     .I2C_SCL(I2C_SCL),
+    //     .I2C_SDA(I2C_SDA)
+    // );
 
     // Internal "clk" generator
     Clock_Gen u_clk_gen(
@@ -50,8 +50,8 @@ module IR_Sensor_Top_Level(
         .bit_clk(I2S_BCLK),
         .word_clk(I2S_WCLK),
         .bclk_fall_tick(bit_clk_fall),
-        .word_clk_fall(wclk_fall_tick),
-        .word_clk_rise(wclk_rise_tick)
+        .wclk_fall_tick(word_clk_fall),
+        .wclk_rise_tick(word_clk_rise)
     );
 
     // Sensor data synchronizer
